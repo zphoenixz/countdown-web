@@ -1,0 +1,21 @@
+{
+  "name": "countdown",
+  "version": "1.0.0",
+  "description": "Auxiliar web page",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ramiro Valdez",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cytoscape": "^3.9.0",
+    "cytoscape-edgehandles": "^3.6.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "rete": "^1.4.1-rc.2",
+    "rete-connection-plugin": "^0.8.2-rc.1"
+  }
+}
