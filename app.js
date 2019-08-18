@@ -1,11 +1,6 @@
-// import g from './graphs';
-// import {defaults} from 'graphs.js';
-
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
-
 
 const app = express();
 
@@ -33,24 +28,29 @@ app.use(express.static("public"));
 
 
 app.get("/", function (req, res) {
-    res.render("index", {listTitle: "Today"});
+    res.render("index");
 });
 
-// app.post("/", function (req, res) {
+app.post("/", function (req, res) {
 
-//     const itemName = req.body.newItem;
-//     const listName = req.body.list;
-//     const item = new Item({
-//         name: itemName
-//     });
+    // const itemName = req.body.newItem;
+    // const listName = req.body.list;
+    // const item = new Item({
+    //     name: itemName
+    // });
 
-//     if (listName === "Today") {
-//         item.save();
-//         res.redirect("/");
-//     } else {
-//         res.redirect("/" + listName);
-//     }
-// })
+    // if (listName === "Today") {
+    //     item.save();
+    //     res.redirect("/");
+    // } else {
+    //     res.redirect("/" + listName);
+    // }
+    res.redirect("/malla");
+})
+
+app.get("/malla", function (req, res) {
+    res.render("malla");
+});
 
 // app.get("/:customListName", function (req, res) {
 //     const customListName = _.capitalize(req.params.customListName);

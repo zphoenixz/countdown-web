@@ -1,9 +1,5 @@
 <%- include("header") -%>
 
-<div class="box" id="heading">
-  <h1> <%= listTitle %> </h1>
-</div>
-
 <div class="container">
   <form id="contact" action="" method="post">
     <h3>Colorlib Contact Form</h3>
@@ -12,16 +8,13 @@
       <input placeholder="Universidad" type="text" tabindex="1" required autofocus>
     </fieldset>
     <fieldset>
-      <input placeholder="Carrera" type="email" tabindex="2" required>
+      <input placeholder="Facultad" type="text" tabindex="2" required>
     </fieldset>
     <fieldset>
-      <input placeholder="Your Phone Number (optional)" type="tel" tabindex="3" required>
+      <input placeholder="Carrera" type="text" tabindex="2" required>
     </fieldset>
     <fieldset>
-      <input placeholder="Your Web Site (optional)" type="url" tabindex="4" required>
-    </fieldset>
-    <fieldset>
-      <textarea placeholder="Type your message here...." tabindex="5" required></textarea>
+      <input placeholder="Año de inclusión" type="text" tabindex="3" required>
     </fieldset>
     <fieldset>
       <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
@@ -30,9 +23,5 @@
     </p>
   </form>
 </div>
-
-<div id="container"></div>
-
-<script src="https://unpkg.com/konva@4.0.4/konva.min.js"></script>
-<script type="text/javascript" src="js/graphs.js"></script>
+<!-- <script type="text/javascript" src="js/listeners.js"></script> -->
 <%- include("footer") -%>
