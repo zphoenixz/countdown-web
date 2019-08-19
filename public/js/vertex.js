@@ -1,27 +1,42 @@
-var nBoxes = 0;
+var vertex = [];
 
-var targets = [];
+function findIndex(nombre, lista){
+    var index = -1;
+    for(var i = 0; i < lista.length; i++){
+        if(nombre === lista[i].id)
+            index = i;
+    }
+    return index;
+}
 
 function addTarget(x, y) {
+    var vertexId = 'target-' + nBoxes;
+    vertex.push([vertexId]);
+   
     targets.push({
-        id: 'target-' + nBoxes,
+        id: vertexId,
         x: x - boxWidth / 2,
         y: y - boxHeight / 2,
         visible: true
     });
+    
     nBoxes++;
     buildBox(targets[targets.length - 1], layer);
 }
 
 function deleteTarget(boxtarget) {
-
     var index = targets.indexOf(boxtarget);
     targets[index].visible = false;
     targets.splice(index, 1);
+    vertex.splice(index, 1);
+    deleteConecction(boxtarget);
+
+    console.log('=========================');
+    console.log(vertex);
     console.log('-------------------------');
-    targets.forEach(target => {
-        console.log(target.id);
-    });
+    // targets.forEach(target => {
+    //     console.log(vertex);
+    // });
     updateObjects();
 }
 
@@ -237,3 +252,14 @@ function buildBox(Boxtarget, layer) {
         document.body.style.cursor = 'default';
     });
 }
+
+function generateInitialTargets() {
+    var number = 4;
+    while (targets.length < number) {
+        let x = (width* Math.random())
+        let y = (height * Math.random());
+        addTarget(x, y);
+        // console.log(result[result.length-1]);
+    }
+}
+generateInitialTargets();
