@@ -44,13 +44,13 @@ function getConnectorPoints(from, to) {
     const dx = to.x - from.x;
     const dy = to.y - from.y;
     let angle = Math.atan2(-dy, dx);
-    const halfWidth = boxWidth / 3;
-    const halfHeight = boxHeight / 3;
+    const halfWidth = boxWidth / 2;
+    const halfHeight = boxHeight / 2;
     return [
-        from.x + halfWidth + -halfWidth * Math.cos(angle + Math.PI),
-        from.y + halfHeight + halfWidth * Math.sin(angle + Math.PI),
-        to.x + halfWidth + -halfWidth * Math.cos(angle),
-        to.y + halfHeight + halfWidth * Math.sin(angle)
+        from.x + halfWidth + -halfWidth/2 * Math.cos(angle + Math.PI),
+        from.y + halfHeight + halfWidth /2* Math.sin(angle + Math.PI),
+        to.x + halfWidth + -halfWidth/2 * Math.cos(angle),
+        to.y + halfHeight + halfWidth/2 * Math.sin(angle)
     ];
 }
 var connectors = generateInitialConnectors();
