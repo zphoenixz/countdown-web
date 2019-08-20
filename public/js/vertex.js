@@ -1,27 +1,42 @@
-var nBoxes = 0;
+var vertex = [];
 
-var targets = [];
+function findIndex(nombre, lista) {
+    var index = -1;
+    for (var i = 0; i < lista.length; i++) {
+        if (nombre === lista[i].id)
+            index = i;
+    }
+    return index;
+}
 
 function addTarget(x, y) {
+    var vertexId = 'target-' + nBoxes;
+    vertex.push([vertexId]);
+
     targets.push({
-        id: 'target-' + nBoxes,
+        id: vertexId,
         x: x - boxWidth / 2,
         y: y - boxHeight / 2,
         visible: true
     });
+
     nBoxes++;
     buildBox(targets[targets.length - 1], layer);
 }
 
 function deleteTarget(boxtarget) {
-
     var index = targets.indexOf(boxtarget);
     targets[index].visible = false;
     targets.splice(index, 1);
+    vertex.splice(index, 1);
+    deleteConecction(boxtarget);
+
+    console.log('=========================');
+    console.log(vertex);
     console.log('-------------------------');
-    targets.forEach(target => {
-        console.log(target.id);
-    });
+    // targets.forEach(target => {
+    //     console.log(vertex);
+    // });
     updateObjects();
 }
 
@@ -71,18 +86,31 @@ function buildBox(Boxtarget, layer) {
         strokeWidth: 2
     });
 
+    var imageRadius = boxHeight / 2;
+    var plugObject = new Konva.Image({
+        x: boxWidth - imageRadius / 2,
+        y: boxHeight / 2 - imageRadius / 2,
+        width: imageRadius,
+        height: imageRadius
+    });
+
+    var plugIcon = new Image();
+    plugIcon.onload = function () {
+        plugObject.image(plugIcon);
+        layer.draw();
+    };
+    plugIcon.src = '../icons/plug1.png';
+
     group.add(box);
     group.add(textNode);
     group.add(tr);
     group.add(circleDel);
+    group.add(plugObject);
     layer.add(group);
 
-    group.on('dragmove', () => {
-        // mutate the state
-        Boxtarget.x = group.x();
-        Boxtarget.y = group.y();
-        updateObjects();
-    });
+
+
+
 
     textNode.on('dblclick', () => {
         textNode.hide();
@@ -212,19 +240,18 @@ function buildBox(Boxtarget, layer) {
             window.addEventListener('click', handleOutsideClick);
         });
     });
-
     textNode.on('mouseover', function () {
         document.body.style.cursor = 'text';
     });
     textNode.on('mouseout', function () {
-        document.body.style.cursor = 'default';
+        document.body.style.cursor = currentCursor;
     });
 
     circleDel.on('mouseover', function () {
         document.body.style.cursor = 'url(icons/delete.png), auto';
     });
     circleDel.on('mouseout', function () {
-        document.body.style.cursor = 'default';
+        document.body.style.cursor = currentCursor;
     });
     circleDel.on('click', function () {
         group.destroy();
@@ -234,6 +261,73 @@ function buildBox(Boxtarget, layer) {
         document.body.style.cursor = 'move';
     });
     box.on('mouseout', function () {
-        document.body.style.cursor = 'default';
+        document.body.style.cursor = currentCursor;
+    });
+    // plugObject.on('click', function () {
+    //     plugIcon.src = '../icons/plug2.png';
+    //     currentCursor = 'url(icons/plug.png), auto';
+    //     // document.body.style.cursor = 'url(icons/plug.png), auto';
+    // });
+    // plugObject.on('dragstart', function () {
+    //     document.body.style.cursor = 'url(icons/plug0.png), auto';
+    //     currentCursor = 'url(icons/plug0.png), auto';
+    //     group.draggable(false);
+    //     plugIcon.src = '../icons/plug2.png';
+    // });
+
+    // plugObject.on('dragmove', function () {
+    //     console.log('drag');
+    //     group.draggable(false);
+    //     document.body.style.cursor = 'move';
+    //     updateObjects();
+    // });
+
+    plugObject.on('mousedown touchstart', function () {
+        document.body.style.cursor = 'url(icons/plug0.png), auto';
+        currentCursor = 'url(icons/plug0.png), auto';
+        group.draggable(false);
+        plugIcon.src = '../icons/plug2.png';
+        
+        console.log(connectionDragged);
+        connectionDragged = Boxtarget;
+    });
+
+    plugObject.on('mouseup touchend', function () {
+        document.body.style.cursor = 'pointer';
+        currentCursor = 'default';
+
+        group.draggable(true);
+        plugIcon.src = '../icons/plug1.png';
+        console.log(connectionDragged);
+    });
+
+    // plugObject.on('dragend', function () {
+    //     group.draggable(true);
+    //     plugIcon.src = '../icons/plug1.png';
+    // });
+
+    plugObject.on('mouseover', function () {
+        document.body.style.cursor = 'pointer';
+    });
+    plugObject.on('mouseout', function () {
+        document.body.style.cursor = currentCursor;
+    });
+
+    group.on('dragmove', () => {
+        // mutate the state
+        Boxtarget.x = group.x();
+        Boxtarget.y = group.y();
+        updateObjects();
     });
 }
+
+function generateInitialTargets() {
+    var number = 4;
+    while (targets.length < number) {
+        let x = (width * Math.random())
+        let y = (height * Math.random());
+        addTarget(x, y);
+        // console.log(result[result.length-1]);
+    }
+}
+generateInitialTargets();
