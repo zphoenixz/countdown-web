@@ -9,7 +9,10 @@ var nBoxes = 0;
 var targets = [];
 
 var currentCursor = 'default';
-var connectionDragged;
+var vertexDragged;
+var groupDragged;
+
+
 var stage = new Konva.Stage({
     container: 'container',
     width: width,
@@ -51,7 +54,6 @@ function updateObjects() {
             var node = layer.findOne('#' + target.id);
             node.x(target.x);
         }
-
     });
 
     

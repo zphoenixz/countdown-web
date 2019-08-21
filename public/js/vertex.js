@@ -34,9 +34,6 @@ function deleteTarget(boxtarget) {
     console.log('=========================');
     console.log(vertex);
     console.log('-------------------------');
-    // targets.forEach(target => {
-    //     console.log(vertex);
-    // });
     updateObjects();
 }
 
@@ -95,6 +92,7 @@ function buildBox(Boxtarget, layer) {
     });
 
     var plugIcon = new Image();
+    
     plugIcon.onload = function () {
         plugObject.image(plugIcon);
         layer.draw();
@@ -107,8 +105,6 @@ function buildBox(Boxtarget, layer) {
     group.add(circleDel);
     group.add(plugObject);
     layer.add(group);
-
-
 
 
 
@@ -288,8 +284,8 @@ function buildBox(Boxtarget, layer) {
         group.draggable(false);
         plugIcon.src = '../icons/plug2.png';
         
-        console.log(connectionDragged);
-        connectionDragged = Boxtarget;
+        vertexDragged = group;
+        // console.log(vertexDragged.getChildren()[4].image());
     });
 
     plugObject.on('mouseup touchend', function () {
@@ -298,7 +294,7 @@ function buildBox(Boxtarget, layer) {
 
         group.draggable(true);
         plugIcon.src = '../icons/plug1.png';
-        console.log(connectionDragged);
+        console.log(vertexDragged.id());
     });
 
     // plugObject.on('dragend', function () {
