@@ -13,11 +13,11 @@ stage.on('contentContextmenu', (e) => {
 //     updateObjects();
 // });
 stage.on('mouseup touchend', function () {
-    document.body.style.cursor = 'default';
+    currentCursor = 'default';
+    document.body.style.cursor = currentCursor;
     vertexDragged.draggable(true);
     vertexDragged.getChildren()[4].image().src = '../icons/plug1.png';
 });
-
 
 
 

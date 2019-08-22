@@ -88,7 +88,11 @@ function buildBox(Boxtarget, layer) {
         x: boxWidth - imageRadius / 2,
         y: boxHeight / 2 - imageRadius / 2,
         width: imageRadius,
-        height: imageRadius
+        height: imageRadius,
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffset: { x: 10, y: 10 },
+        shadowOpacity: 0.5
     });
 
     var plugIcon = new Image();
@@ -97,7 +101,9 @@ function buildBox(Boxtarget, layer) {
         plugObject.image(plugIcon);
         layer.draw();
     };
-    plugIcon.src = '../icons/plug1.png';
+    var currentImageSource = '../icons/plug1.png';
+
+    plugIcon.src = currentImageSource;
 
     group.add(box);
     group.add(textNode);
@@ -105,8 +111,6 @@ function buildBox(Boxtarget, layer) {
     group.add(circleDel);
     group.add(plugObject);
     layer.add(group);
-
-
 
     textNode.on('dblclick', () => {
         textNode.hide();
@@ -237,14 +241,16 @@ function buildBox(Boxtarget, layer) {
         });
     });
     textNode.on('mouseover', function () {
-        document.body.style.cursor = 'text';
+        if(currentCursor == 'default')
+            document.body.style.cursor = 'text';
     });
     textNode.on('mouseout', function () {
         document.body.style.cursor = currentCursor;
     });
 
     circleDel.on('mouseover', function () {
-        document.body.style.cursor = 'url(icons/delete.png), auto';
+        if(currentCursor == 'default')
+            document.body.style.cursor = 'url(icons/delete.png), auto';
     });
     circleDel.on('mouseout', function () {
         document.body.style.cursor = currentCursor;
@@ -254,36 +260,21 @@ function buildBox(Boxtarget, layer) {
         deleteTarget(Boxtarget);
     });
     box.on('mouseover', function (e) {
-        document.body.style.cursor = 'move';
+        if(currentCursor == 'default')
+            document.body.style.cursor = 'move';
     });
     box.on('mouseout', function () {
         document.body.style.cursor = currentCursor;
     });
-    // plugObject.on('click', function () {
-    //     plugIcon.src = '../icons/plug2.png';
-    //     currentCursor = 'url(icons/plug.png), auto';
-    //     // document.body.style.cursor = 'url(icons/plug.png), auto';
-    // });
-    // plugObject.on('dragstart', function () {
-    //     document.body.style.cursor = 'url(icons/plug0.png), auto';
-    //     currentCursor = 'url(icons/plug0.png), auto';
-    //     group.draggable(false);
-    //     plugIcon.src = '../icons/plug2.png';
-    // });
-
-    // plugObject.on('dragmove', function () {
-    //     console.log('drag');
-    //     group.draggable(false);
-    //     document.body.style.cursor = 'move';
-    //     updateObjects();
-    // });
 
     plugObject.on('mousedown touchstart', function () {
-        document.body.style.cursor = 'url(icons/plug0.png), auto';
-        currentCursor = 'url(icons/plug0.png), auto';
-        group.draggable(false);
-        plugIcon.src = '../icons/plug2.png';
         
+        currentCursor = 'url(icons/plug0.png), auto';
+        document.body.style.cursor = currentCursor;
+
+        group.draggable(false);
+        currentImageSource = '../icons/plug2.png';
+        plugIcon.src = currentImageSource;
         vertexDragged = group;
         // console.log(vertexDragged.getChildren()[4].image());
     });
@@ -293,7 +284,8 @@ function buildBox(Boxtarget, layer) {
         currentCursor = 'default';
 
         group.draggable(true);
-        plugIcon.src = '../icons/plug1.png';
+        currentImageSource = '../icons/plug1.png';
+        plugIcon.src = currentImageSource;
         console.log(vertexDragged.id());
     });
 
@@ -303,14 +295,16 @@ function buildBox(Boxtarget, layer) {
     // });
 
     plugObject.on('mouseover', function () {
-        document.body.style.cursor = 'pointer';
+        if(currentCursor == 'default')
+            document.body.style.cursor = 'pointer';
+        plugIcon.src = '../icons/plug2.png';
     });
     plugObject.on('mouseout', function () {
         document.body.style.cursor = currentCursor;
+        plugIcon.src = currentImageSource;
     });
 
     group.on('dragmove', () => {
-        // mutate the state
         Boxtarget.x = group.x();
         Boxtarget.y = group.y();
         updateObjects();
