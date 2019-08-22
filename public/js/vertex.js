@@ -99,7 +99,8 @@ function buildBox(Boxtarget, layer) {
     
     plugIcon.onload = function () {
         plugObject.image(plugIcon);
-        layer.draw();
+        // layer.draw();
+        updateObjects();
     };
     var currentImageSource = '../icons/plug1.png';
 
@@ -115,8 +116,8 @@ function buildBox(Boxtarget, layer) {
     textNode.on('dblclick', () => {
         textNode.hide();
         tr.hide();
-        layer.draw();
-
+        // layer.draw();
+        updateObjects();
         var textPosition = group.absolutePosition();
         var stageBox = stage.container().getBoundingClientRect();
 
@@ -184,7 +185,8 @@ function buildBox(Boxtarget, layer) {
             textNode.show();
             tr.show();
             tr.forceUpdate();
-            layer.draw();
+            // layer.draw();
+            updateObjects();
         }
 
         function setTextareaWidth(newWidth) {
@@ -287,6 +289,8 @@ function buildBox(Boxtarget, layer) {
         currentImageSource = '../icons/plug1.png';
         plugIcon.src = currentImageSource;
         console.log(vertexDragged.id());
+        addConecction(vertexDragged.id(), group.id(), connectors);
+        updateObjects();
     });
 
     // plugObject.on('dragend', function () {

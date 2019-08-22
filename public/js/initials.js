@@ -9,8 +9,7 @@ var nBoxes = 0;
 var targets = [];
 
 var currentCursor = 'default';
-var vertexDragged;
-var groupDragged;
+var vertexDragged = null;
 
 
 var stage = new Konva.Stage({
@@ -56,7 +55,6 @@ function updateObjects() {
         }
     });
 
-    
     connectors.forEach(connect => {
         var line = layer.findOne('#' + connect.id);
         var fromNode = layer.findOne('#' + connect.from);

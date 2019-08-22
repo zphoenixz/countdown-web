@@ -15,8 +15,13 @@ stage.on('contentContextmenu', (e) => {
 stage.on('mouseup touchend', function () {
     currentCursor = 'default';
     document.body.style.cursor = currentCursor;
-    vertexDragged.draggable(true);
-    vertexDragged.getChildren()[4].image().src = '../icons/plug1.png';
+    try {
+        vertexDragged.draggable(true);
+        vertexDragged.getChildren()[4].image().src = '../icons/plug1.png';
+      }
+      catch(err) {
+        // console.log(err);
+      }
 });
 
 

@@ -37,24 +37,20 @@ function addConecction(from, to, result){
 function deleteConecction(boxtarget) {
     var targetId = boxtarget.id;
 
-    for(var i = 0; i < connectors.length; i++){
+    for(var i = 0; i < connectors.length; i++)
         if(connectors[i].from === targetId || connectors[i].to === targetId){
             var line = layer.findOne('#' + connectors[i].id);
             line.destroy();
             connectors.splice(i, 1);
             i--;
         }
-    }
     
-    for(var i = 0; i < vertex.length; i++){
-        for(var j = 1; j < vertex[i].length; j++){
+    for(var i = 0; i < vertex.length; i++)
+        for(var j = 1; j < vertex[i].length; j++)
             if(vertex[i][j] === targetId){
                 vertex[i].splice(j, 1);
                 j--;
             }
-        } 
-    }
-
     updateObjects();
 }
 
