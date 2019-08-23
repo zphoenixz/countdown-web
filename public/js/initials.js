@@ -10,7 +10,7 @@ var targets = [];
 
 var currentCursor = 'default';
 var vertexDragged = null;
-
+var input = document.getElementById('hiddenInput');
 
 var stage = new Konva.Stage({
     container: 'container',
@@ -19,11 +19,7 @@ var stage = new Konva.Stage({
 });
 var layer = new Konva.Layer();
 
-function updateGraph(currentCurriculum){
-    var finalCurriculum = JSON.stringify(currentCurriculum)
-    var input = document.getElementById('hiddenInput');
-    input.value = finalCurriculum;
-}
+
 
 // Responsive to the screen
 function fitStageIntoParentContainer() {
@@ -52,6 +48,10 @@ function getRelativePointerPosition(node) {
 fitStageIntoParentContainer();
 window.addEventListener('resize', fitStageIntoParentContainer);
 //
+function updateGraph(currentCurriculum){
+    var finalCurriculum = JSON.stringify(currentCurriculum)
+    input.value = finalCurriculum;
+}
 
 function updateObjects() {
     targets.forEach(target => {

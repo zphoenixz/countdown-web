@@ -5,10 +5,10 @@ function getConnectorPoints(from, to) {
     const halfWidth = boxWidth/2;
     const halfHeight = boxHeight/2;
     return [
-        from.x + halfWidth  + (-halfWidth / 2) * Math.cos(angle + Math.PI),
-        from.y + halfHeight + ( halfWidth / 2) * Math.sin(angle + Math.PI),
-        to.x   + halfWidth  + (-halfWidth / 2) * Math.cos(angle),
-        to.y   + halfHeight + ( halfWidth / 2) * Math.sin(angle)
+        from.x + halfWidth*2  + (-halfWidth / 2) * Math.cos(angle + Math.PI),
+        from.y + halfHeight   + ( halfWidth / 2) * Math.sin(angle + Math.PI),
+        to.x   + halfWidth*2  + (-halfWidth / 2) * Math.cos(angle),
+        to.y   + halfHeight   + ( halfWidth / 2) * Math.sin(angle)
     ];
 }
 

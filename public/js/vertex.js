@@ -36,10 +36,6 @@ function deleteTarget(boxtarget) {
     targets.splice(index, 1);
     vertex.splice(index, 1);
     deleteConecction(boxtarget);
-
-    console.log('=========================');
-    console.log(vertex);
-    console.log('-------------------------');
     updateObjects();
 }
 
@@ -51,10 +47,10 @@ function buildBox(Boxtarget, layer) {
         draggable: true
     });
     var box = new Konva.Rect({
-        // fill: Konva.Util.getRandomColor(),
+        fill: Konva.Util.getRandomColor(),
         width: boxWidth,
         height: boxHeight,
-        fill: '#77678a',
+        // fill: '#77678a',
         stroke: 'gray',
         strokeWidth: 2,
         // shadowBlur: 10,

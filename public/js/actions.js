@@ -1,3 +1,4 @@
+
 stage.on('contentContextmenu', (e) => {
     e.evt.preventDefault();
     var pos = stage.getPointerPosition();
