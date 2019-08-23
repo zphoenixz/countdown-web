@@ -2,16 +2,22 @@ var vertex = [];
 
 function findIndex(nombre, lista) {
     var index = -1;
-    for (var i = 0; i < lista.length; i++) {
+    for (var i = 0; i < lista.length; i++)
         if (nombre === lista[i].id)
             index = i;
-    }
     return index;
 }
 
 function addTarget(x, y) {
     var vertexId = 'target-' + nBoxes;
     vertex.push([vertexId]);
+
+    try {
+        updateGraph(vertex);
+    } catch (error) {
+        
+    }
+    
 
     targets.push({
         id: vertexId,
@@ -56,9 +62,9 @@ function buildBox(Boxtarget, layer) {
 
     var textNode = new Konva.Text({
         text: 'Datos ' + Boxtarget.id,
-        fontSize: 20,
+        fontSize: 12,
         width: boxWidth,
-        fontFamily: 'Helvetica',
+        fontFamily: 'myfont',
         fill: 'white',
         fontStyle: 'bold'
     });
@@ -156,20 +162,18 @@ function buildBox(Boxtarget, layer) {
         textarea.style.color = textNode.fill();
         rotation = textNode.rotation();
         var transform = '';
-        if (rotation) {
+        if (rotation)
             transform += 'rotateZ(' + rotation + 'deg)';
-        }
 
         var px = 0;
         // also we need to slightly move textarea on firefox
         // because it jumps a bit
         var isFirefox =
             navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-        if (isFirefox) {
+        if (isFirefox)
             px += 2 + Math.round(textNode.fontSize() / 20);
-        }
+        
         transform += 'translateY(-' + px + 'px)';
-
         textarea.style.transform = transform;
 
         // reset height
@@ -190,25 +194,23 @@ function buildBox(Boxtarget, layer) {
         }
 
         function setTextareaWidth(newWidth) {
-            if (!newWidth) {
-                // set width for placeholder
+            if (!newWidth)
                 newWidth = textNode.placeholder.length * textNode.fontSize();
-            }
+
             // some extra fixes on different browsers
             var isSafari = /^((?!chrome|android).)*safari/i.test(
                 navigator.userAgent
             );
             var isFirefox =
                 navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-            if (isSafari || isFirefox) {
+            if (isSafari || isFirefox)
                 newWidth = Math.ceil(newWidth);
-            }
 
             var isEdge =
                 document.documentMode || /Edge/.test(navigator.userAgent);
-            if (isEdge) {
+            if (isEdge) 
                 newWidth += 1;
-            }
+
             textarea.style.width = newWidth + 'px';
         }
 
@@ -220,9 +222,8 @@ function buildBox(Boxtarget, layer) {
                 removeTextarea();
             }
             // on esc do not set value back to node
-            if (e.keyCode === 27) {
+            if (e.keyCode === 27)
                 removeTextarea();
-            }
         });
 
         textarea.addEventListener('keydown', function (e) {
@@ -234,9 +235,8 @@ function buildBox(Boxtarget, layer) {
         });
 
         function handleOutsideClick(e) {
-            if (e.target !== textarea) {
+            if (e.target !== textarea)
                 removeTextarea();
-            }
         }
         setTimeout(() => {
             window.addEventListener('click', handleOutsideClick);

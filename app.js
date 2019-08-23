@@ -52,6 +52,11 @@ app.get("/malla", function (req, res) {
     res.render("malla");
 });
 
+app.post("/malla", function (req, res) {
+    console.log(req.body.curriculum);
+    res.render("malla");
+});
+
 // app.get("/:customListName", function (req, res) {
 //     const customListName = _.capitalize(req.params.customListName);
 

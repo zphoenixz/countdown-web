@@ -19,6 +19,12 @@ var stage = new Konva.Stage({
 });
 var layer = new Konva.Layer();
 
+function updateGraph(currentCurriculum){
+    var finalCurriculum = JSON.stringify(currentCurriculum)
+    var input = document.getElementById('hiddenInput');
+    input.value = finalCurriculum;
+}
+
 // Responsive to the screen
 function fitStageIntoParentContainer() {
     var container = document.querySelector('#stage-parent');
@@ -74,7 +80,7 @@ var titulo = new Konva.Text({
     y: boxHeight / 2,
     width: width,
     fontSize: boxHeight / 2,
-    fontFamily: 'myfont',
+    fontFamily: 'Roboto',
     fill: 'white',
     fontStyle: 'bold',
     align: 'center',

@@ -19,6 +19,12 @@ function addConecction(from, to, result){
     var index = findIndex(to, targets);
     vertex[index].push(from);
 
+    try {
+        updateGraph(vertex);
+    } catch (error) {
+        
+    }
+    
     var id = 'connector-' + result.length;
     result.push({
         id: id,
