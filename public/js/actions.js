@@ -1,3 +1,4 @@
+
 stage.on('contentContextmenu', (e) => {
     e.evt.preventDefault();
     var pos = stage.getPointerPosition();
@@ -13,11 +14,16 @@ stage.on('contentContextmenu', (e) => {
 //     updateObjects();
 // });
 stage.on('mouseup touchend', function () {
-    document.body.style.cursor = 'default';
-    vertexDragged.draggable(true);
-    vertexDragged.getChildren()[4].image().src = '../icons/plug1.png';
+    currentCursor = 'default';
+    document.body.style.cursor = currentCursor;
+    try {
+        vertexDragged.draggable(true);
+        vertexDragged.getChildren()[4].image().src = '../icons/plug1.png';
+      }
+      catch(err) {
+        // console.log(err);
+      }
 });
-
 
 
 

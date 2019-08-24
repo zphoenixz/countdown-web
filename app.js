@@ -32,24 +32,20 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-
-    // const itemName = req.body.newItem;
-    // const listName = req.body.list;
-    // const item = new Item({
-    //     name: itemName
-    // });
-
-    // if (listName === "Today") {
-    //     item.save();
-    //     res.redirect("/");
-    // } else {
-    //     res.redirect("/" + listName);
-    // }
     res.redirect("/malla");
 })
 
 app.get("/malla", function (req, res) {
     res.render("malla");
+});
+
+app.post("/malla", function (req, res) {
+    var nonparsed = req.body.curriculum;
+    console.log(nonparsed);
+    var parsed = JSON.parse(nonparsed)
+    console.log(parsed)
+    // res.render("malla");
+    res.status(204).send();
 });
 
 // app.get("/:customListName", function (req, res) {

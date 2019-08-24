@@ -2,16 +2,22 @@ var vertex = [];
 
 function findIndex(nombre, lista) {
     var index = -1;
-    for (var i = 0; i < lista.length; i++) {
+    for (var i = 0; i < lista.length; i++)
         if (nombre === lista[i].id)
             index = i;
-    }
     return index;
 }
 
 function addTarget(x, y) {
     var vertexId = 'target-' + nBoxes;
     vertex.push([vertexId]);
+
+    try {
+        updateGraph(vertex);
+    } catch (error) {
+        
+    }
+    
 
     targets.push({
         id: vertexId,
@@ -30,14 +36,6 @@ function deleteTarget(boxtarget) {
     targets.splice(index, 1);
     vertex.splice(index, 1);
     deleteConecction(boxtarget);
-
-    console.log('=========================');
-    console.log(vertex);
-    console.log('-------------------------');
-    var a = JSON.stringify(vertex)
-    var parsed = JSON.parse(a)
-    console.log('Parsed Coordinates: ', parsed)
-    console.log('=========== ', a)
     updateObjects();
 }
 
@@ -49,10 +47,10 @@ function buildBox(Boxtarget, layer) {
         draggable: true
     });
     var box = new Konva.Rect({
-        // fill: Konva.Util.getRandomColor(),
+        fill: Konva.Util.getRandomColor(),
         width: boxWidth,
         height: boxHeight,
-        fill: '#77678a',
+        // fill: '#77678a',
         stroke: 'gray',
         strokeWidth: 2,
         // shadowBlur: 10,
@@ -60,9 +58,9 @@ function buildBox(Boxtarget, layer) {
 
     var textNode = new Konva.Text({
         text: 'Datos ' + Boxtarget.id,
-        fontSize: 20,
+        fontSize: 12,
         width: boxWidth,
-        fontFamily: 'Helvetica',
+        fontFamily: 'myfont',
         fill: 'white',
         fontStyle: 'bold'
     });
@@ -92,16 +90,23 @@ function buildBox(Boxtarget, layer) {
         x: boxWidth - imageRadius / 2,
         y: boxHeight / 2 - imageRadius / 2,
         width: imageRadius,
-        height: imageRadius
+        height: imageRadius,
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffset: { x: 10, y: 10 },
+        shadowOpacity: 0.5
     });
 
     var plugIcon = new Image();
 
     plugIcon.onload = function () {
         plugObject.image(plugIcon);
-        layer.draw();
+        // layer.draw();
+        updateObjects();
     };
-    plugIcon.src = '../icons/plug1.png';
+    var currentImageSource = '../icons/plug1.png';
+
+    plugIcon.src = currentImageSource;
 
     group.add(box);
     group.add(textNode);
@@ -110,13 +115,11 @@ function buildBox(Boxtarget, layer) {
     group.add(plugObject);
     layer.add(group);
 
-
-
     textNode.on('dblclick', () => {
         textNode.hide();
         tr.hide();
-        layer.draw();
-
+        // layer.draw();
+        updateObjects();
         var textPosition = group.absolutePosition();
         var stageBox = stage.container().getBoundingClientRect();
 
@@ -155,20 +158,18 @@ function buildBox(Boxtarget, layer) {
         textarea.style.color = textNode.fill();
         rotation = textNode.rotation();
         var transform = '';
-        if (rotation) {
+        if (rotation)
             transform += 'rotateZ(' + rotation + 'deg)';
-        }
 
         var px = 0;
         // also we need to slightly move textarea on firefox
         // because it jumps a bit
         var isFirefox =
             navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-        if (isFirefox) {
+        if (isFirefox)
             px += 2 + Math.round(textNode.fontSize() / 20);
-        }
+        
         transform += 'translateY(-' + px + 'px)';
-
         textarea.style.transform = transform;
 
         // reset height
@@ -184,29 +185,28 @@ function buildBox(Boxtarget, layer) {
             textNode.show();
             tr.show();
             tr.forceUpdate();
-            layer.draw();
+            // layer.draw();
+            updateObjects();
         }
 
         function setTextareaWidth(newWidth) {
-            if (!newWidth) {
-                // set width for placeholder
+            if (!newWidth)
                 newWidth = textNode.placeholder.length * textNode.fontSize();
-            }
+
             // some extra fixes on different browsers
             var isSafari = /^((?!chrome|android).)*safari/i.test(
                 navigator.userAgent
             );
             var isFirefox =
                 navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-            if (isSafari || isFirefox) {
+            if (isSafari || isFirefox)
                 newWidth = Math.ceil(newWidth);
-            }
 
             var isEdge =
                 document.documentMode || /Edge/.test(navigator.userAgent);
-            if (isEdge) {
+            if (isEdge) 
                 newWidth += 1;
-            }
+
             textarea.style.width = newWidth + 'px';
         }
 
@@ -218,9 +218,8 @@ function buildBox(Boxtarget, layer) {
                 removeTextarea();
             }
             // on esc do not set value back to node
-            if (e.keyCode === 27) {
+            if (e.keyCode === 27)
                 removeTextarea();
-            }
         });
 
         textarea.addEventListener('keydown', function (e) {
@@ -232,23 +231,24 @@ function buildBox(Boxtarget, layer) {
         });
 
         function handleOutsideClick(e) {
-            if (e.target !== textarea) {
+            if (e.target !== textarea)
                 removeTextarea();
-            }
         }
         setTimeout(() => {
             window.addEventListener('click', handleOutsideClick);
         });
     });
     textNode.on('mouseover', function () {
-        document.body.style.cursor = 'text';
+        if(currentCursor == 'default')
+            document.body.style.cursor = 'text';
     });
     textNode.on('mouseout', function () {
         document.body.style.cursor = currentCursor;
     });
 
     circleDel.on('mouseover', function () {
-        document.body.style.cursor = 'url(icons/delete.png), auto';
+        if(currentCursor == 'default')
+            document.body.style.cursor = 'url(icons/delete.png), auto';
     });
     circleDel.on('mouseout', function () {
         document.body.style.cursor = currentCursor;
@@ -258,36 +258,21 @@ function buildBox(Boxtarget, layer) {
         deleteTarget(Boxtarget);
     });
     box.on('mouseover', function (e) {
-        document.body.style.cursor = 'move';
+        if(currentCursor == 'default')
+            document.body.style.cursor = 'move';
     });
     box.on('mouseout', function () {
         document.body.style.cursor = currentCursor;
     });
-    // plugObject.on('click', function () {
-    //     plugIcon.src = '../icons/plug2.png';
-    //     currentCursor = 'url(icons/plug.png), auto';
-    //     // document.body.style.cursor = 'url(icons/plug.png), auto';
-    // });
-    // plugObject.on('dragstart', function () {
-    //     document.body.style.cursor = 'url(icons/plug0.png), auto';
-    //     currentCursor = 'url(icons/plug0.png), auto';
-    //     group.draggable(false);
-    //     plugIcon.src = '../icons/plug2.png';
-    // });
-
-    // plugObject.on('dragmove', function () {
-    //     console.log('drag');
-    //     group.draggable(false);
-    //     document.body.style.cursor = 'move';
-    //     updateObjects();
-    // });
 
     plugObject.on('mousedown touchstart', function () {
-        document.body.style.cursor = 'url(icons/plug0.png), auto';
+        
         currentCursor = 'url(icons/plug0.png), auto';
-        group.draggable(false);
-        plugIcon.src = '../icons/plug2.png';
+        document.body.style.cursor = currentCursor;
 
+        group.draggable(false);
+        currentImageSource = '../icons/plug2.png';
+        plugIcon.src = currentImageSource;
         vertexDragged = group;
         // console.log(vertexDragged.getChildren()[4].image());
     });
@@ -297,8 +282,11 @@ function buildBox(Boxtarget, layer) {
         currentCursor = 'default';
 
         group.draggable(true);
-        plugIcon.src = '../icons/plug1.png';
+        currentImageSource = '../icons/plug1.png';
+        plugIcon.src = currentImageSource;
         console.log(vertexDragged.id());
+        addConecction(vertexDragged.id(), group.id(), connectors);
+        updateObjects();
     });
 
     // plugObject.on('dragend', function () {
@@ -307,14 +295,16 @@ function buildBox(Boxtarget, layer) {
     // });
 
     plugObject.on('mouseover', function () {
-        document.body.style.cursor = 'pointer';
+        if(currentCursor == 'default')
+            document.body.style.cursor = 'pointer';
+        plugIcon.src = '../icons/plug2.png';
     });
     plugObject.on('mouseout', function () {
         document.body.style.cursor = currentCursor;
+        plugIcon.src = currentImageSource;
     });
 
     group.on('dragmove', () => {
-        // mutate the state
         Boxtarget.x = group.x();
         Boxtarget.y = group.y();
         updateObjects();

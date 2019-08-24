@@ -9,9 +9,8 @@ var nBoxes = 0;
 var targets = [];
 
 var currentCursor = 'default';
-var vertexDragged;
-var groupDragged;
-
+var vertexDragged = null;
+var input = document.getElementById('hiddenInput');
 
 var stage = new Konva.Stage({
     container: 'container',
@@ -19,6 +18,8 @@ var stage = new Konva.Stage({
     height: height
 });
 var layer = new Konva.Layer();
+
+
 
 // Responsive to the screen
 function fitStageIntoParentContainer() {
@@ -47,6 +48,10 @@ function getRelativePointerPosition(node) {
 fitStageIntoParentContainer();
 window.addEventListener('resize', fitStageIntoParentContainer);
 //
+function updateGraph(currentCurriculum){
+    var finalCurriculum = JSON.stringify(currentCurriculum)
+    input.value = finalCurriculum;
+}
 
 function updateObjects() {
     targets.forEach(target => {
@@ -56,7 +61,6 @@ function updateObjects() {
         }
     });
 
-    
     connectors.forEach(connect => {
         var line = layer.findOne('#' + connect.id);
         var fromNode = layer.findOne('#' + connect.from);
@@ -76,7 +80,7 @@ var titulo = new Konva.Text({
     y: boxHeight / 2,
     width: width,
     fontSize: boxHeight / 2,
-    fontFamily: 'myfont',
+    fontFamily: 'Roboto',
     fill: 'white',
     fontStyle: 'bold',
     align: 'center',
