@@ -7,13 +7,18 @@
         </div>
     </div>
     <div id="malla-form">
-        <a href="#" class="btn-gradient blue normal" onclick="document.getElementById('malla').submit();">
+        <a href="#" class="btn-gradient blue normal" onclick="onSubmit()">
             Subir datos a la nube
         </a>
     </div>
     <input type="hidden" name="curriculum" id="hiddenInput" value="ahorita nada"/>
 </form>
-
+<script>
+    var college = ("<%- college %>").toUpperCase();
+    var faculty = ("<%- faculty %>").toUpperCase();
+    var major   = ("<%- major %>").toUpperCase();
+    var cvyear  = ("<%- cvyear %>").toUpperCase();
+</script>
 <script src="https://unpkg.com/konva@4.0.4/konva.min.js"></script>
 <script type="text/javascript" src="js/initials.js"></script>
 <script type="text/javascript" src="js/vertex.js"></script>

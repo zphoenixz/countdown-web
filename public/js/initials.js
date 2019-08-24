@@ -1,3 +1,9 @@
+// var college = "<%- college %>";
+// var faculty = "<%- faculty %>";
+// var major = "<%- major %>";
+// var cvyear = "<%- cvyear %>";
+console.log(college, faculty, major, cvyear);
+
 
 var width = window.innerWidth;
 var height = window.innerHeight * 0.9;
@@ -19,8 +25,6 @@ var stage = new Konva.Stage({
 });
 var layer = new Konva.Layer();
 
-
-
 // Responsive to the screen
 function fitStageIntoParentContainer() {
     var container = document.querySelector('#stage-parent');
@@ -40,17 +44,37 @@ function fitStageIntoParentContainer() {
 
 function getRelativePointerPosition(node) {
     var transform = node.getAbsoluteTransform().copy();
-    
+
     transform.invert();
     var pos = node.getStage().getPointerPosition();
     return transform.point(pos);
 }
 fitStageIntoParentContainer();
 window.addEventListener('resize', fitStageIntoParentContainer);
-//
-function updateGraph(currentCurriculum){
-    var finalCurriculum = JSON.stringify(currentCurriculum)
-    input.value = finalCurriculum;
+
+
+function createGraph(vertices, aristas) {
+    var i = 0;
+    var aux = {};
+    var graph = {};
+
+    vertices.forEach(vertice => {
+        aux[vertice.id] = [];
+        aux[vertice.id].push(vertice.subjectId);
+    });
+    aristas.forEach(arista => {
+        aux[arista.to].push(aux[arista.from][0]);
+    });
+
+    for (var key in aux) {
+        if (aux.hasOwnProperty(key)) {
+            graph[aux[key][0]] = [];
+            aux[key].forEach(subject =>{
+                graph[aux[key][0]].push(subject);
+            });
+        }
+    }
+    return graph;
 }
 
 function updateObjects() {
@@ -93,4 +117,3 @@ var background = new Konva.Rect({
     height: boxHeight / 2,
     fill: 'black'
 });
-

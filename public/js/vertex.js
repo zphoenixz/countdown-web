@@ -1,4 +1,3 @@
-var vertex = [];
 
 function findIndex(nombre, lista) {
     var index = -1;
@@ -10,20 +9,12 @@ function findIndex(nombre, lista) {
 
 function addTarget(x, y) {
     var vertexId = 'target-' + nBoxes;
-    vertex.push([vertexId]);
-
-    try {
-        updateGraph(vertex);
-    } catch (error) {
-        
-    }
-    
-
     targets.push({
         id: vertexId,
         x: x - boxWidth / 2,
         y: y - boxHeight / 2,
-        visible: true
+        visible: true,
+        subjectId: vertexId
     });
 
     nBoxes++;
@@ -34,7 +25,6 @@ function deleteTarget(boxtarget) {
     var index = targets.indexOf(boxtarget);
     targets[index].visible = false;
     targets.splice(index, 1);
-    vertex.splice(index, 1);
     deleteConecction(boxtarget);
     updateObjects();
 }
@@ -44,7 +34,8 @@ function buildBox(Boxtarget, layer) {
         id: Boxtarget.id,
         x: Boxtarget.x,
         y: Boxtarget.y,
-        draggable: true
+        draggable: true,
+        subjectId: Boxtarget.subjectId
     });
     var box = new Konva.Rect({
         fill: Konva.Util.getRandomColor(),
@@ -58,7 +49,7 @@ function buildBox(Boxtarget, layer) {
 
     var textNode = new Konva.Text({
         text: 'Datos ' + Boxtarget.id,
-        fontSize: 12,
+        fontSize: 18,
         width: boxWidth,
         fontFamily: 'myfont',
         fill: 'white',
@@ -215,6 +206,7 @@ function buildBox(Boxtarget, layer) {
             // but don't hide on shift + enter
             if (e.keyCode === 13 && !e.shiftKey) {
                 textNode.text(textarea.value);
+                Boxtarget.subjectId = (textarea.value).toLowerCase();
                 removeTextarea();
             }
             // on esc do not set value back to node
@@ -232,12 +224,15 @@ function buildBox(Boxtarget, layer) {
 
         function handleOutsideClick(e) {
             if (e.target !== textarea)
+                textNode.text(textarea.value);
+                Boxtarget.subjectId = (textarea.value).toLowerCase();
                 removeTextarea();
         }
         setTimeout(() => {
             window.addEventListener('click', handleOutsideClick);
         });
     });
+
     textNode.on('mouseover', function () {
         if(currentCursor == 'default')
             document.body.style.cursor = 'text';
@@ -257,6 +252,7 @@ function buildBox(Boxtarget, layer) {
         group.destroy();
         deleteTarget(Boxtarget);
     });
+
     box.on('mouseover', function (e) {
         if(currentCursor == 'default')
             document.body.style.cursor = 'move';
@@ -284,8 +280,8 @@ function buildBox(Boxtarget, layer) {
         group.draggable(true);
         currentImageSource = '../icons/plug1.png';
         plugIcon.src = currentImageSource;
-        console.log(vertexDragged.id());
-        addConecction(vertexDragged.id(), group.id(), connectors);
+        // console.log(vertexDragged.id());
+        addConecction(vertexDragged, group, connectors);
         updateObjects();
     });
 

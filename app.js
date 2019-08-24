@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
+const url = require('url'); 
 
 const app = express();
 
@@ -32,11 +33,26 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    res.redirect("/malla");
+    var college = req.body.college;
+    var faculty = req.body.faculty;
+    var major = req.body.major;
+    var cvyear = req.body.cvyear;
+
+
+    res.redirect(url.format({
+        pathname: "/malla",
+        query: {
+            college: college,
+            faculty: faculty,
+            major: major,
+            cvyear: cvyear
+        }
+    }));
 })
 
 app.get("/malla", function (req, res) {
-    res.render("malla");
+    console.log(req.query);
+    res.render("malla", req.query);
 });
 
 app.post("/malla", function (req, res) {
@@ -67,19 +83,7 @@ app.post("/malla", function (req, res) {
 //     }
 // });
 
-;
 
-// app.post("/delete", function (req, res) {
-//     const checkedItemId = req.body.checkbox;
-//     const listName = req.body.listName;
-
-//     if (listName === "Today") {
-//         console.log("Successfully deleted checked item.");
-//         res.redirect("/");
-//     } else {
-//         res.redirect("/" + listName);
-//     }
-// });
 
 app.get("/about", function (req, res) {
     res.render("about");

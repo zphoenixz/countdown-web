@@ -1,3 +1,5 @@
+var connectors = [];
+
 function getConnectorPoints(from, to) {
     const dx = to.x - from.x;
     const dy = to.y - from.y;
@@ -12,24 +14,23 @@ function getConnectorPoints(from, to) {
     ];
 }
 
-function addConecction(from, to, result){
+function addConecction(from, to, result) {
     if (from === to) {
         return;
     }
-    var index = findIndex(to, targets);
-    vertex[index].push(from);
 
-    try {
-        updateGraph(vertex);
-    } catch (error) {
-        
-    }
-    
     var id = 'connector-' + result.length;
+    // console.log("=========================");
+    // console.log(from);
+    // console.log("=========================");
+    // console.log(from.id());
+    // console.log("=========================");
+    // console.log(from.getAttr('subjectId'));
     result.push({
         id: id,
-        from: from,
-        to: to
+        from: from.id(),
+        to: to.id(),
+        // fromSubjectId: from.subjectId
     });
 
     var line = new Konva.Arrow({
@@ -51,27 +52,21 @@ function deleteConecction(boxtarget) {
             i--;
         }
     
-    for(var i = 0; i < vertex.length; i++)
-        for(var j = 1; j < vertex[i].length; j++)
-            if(vertex[i][j] === targetId){
-                vertex[i].splice(j, 1);
-                j--;
-            }
     updateObjects();
 }
 
-function generateInitialConnectors() {
-    var number = 5;
-    var result = [];
-    while (result.length < number) {
-        var from = 'target-' + Math.floor(Math.random() * targets.length);
-        var to = 'target-' + Math.floor(Math.random() * targets.length);
-        addConecction(from, to, result);
-    }
-    return result;
-}
+// function generateInitialConnectors() {
+//     var number = 0;
+//     var result = [];
+//     while (result.length < number) {
+//         var from = 'target-' + Math.floor(Math.random() * targets.length);
+//         var to = 'target-' + Math.floor(Math.random() * targets.length);
+//         addConecction(from, to, result);
+//     }
+//     return result;
+// }
 
-var connectors = generateInitialConnectors();
+// var connectors = generateInitialConnectors();
 
 connectors.forEach(connect => {
     var line = new Konva.Arrow({
