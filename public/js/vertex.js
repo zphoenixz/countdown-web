@@ -34,6 +34,10 @@ function deleteTarget(boxtarget) {
     console.log('=========================');
     console.log(vertex);
     console.log('-------------------------');
+    var a = JSON.stringify(vertex)
+    var parsed = JSON.parse(a)
+    console.log('Parsed Coordinates: ', parsed)
+    console.log('=========== ', a)
     updateObjects();
 }
 
@@ -92,7 +96,7 @@ function buildBox(Boxtarget, layer) {
     });
 
     var plugIcon = new Image();
-    
+
     plugIcon.onload = function () {
         plugObject.image(plugIcon);
         layer.draw();
@@ -283,7 +287,7 @@ function buildBox(Boxtarget, layer) {
         currentCursor = 'url(icons/plug0.png), auto';
         group.draggable(false);
         plugIcon.src = '../icons/plug2.png';
-        
+
         vertexDragged = group;
         // console.log(vertexDragged.getChildren()[4].image());
     });
