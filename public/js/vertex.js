@@ -8,7 +8,7 @@ function findIndex(nombre, lista) {
 }
 
 function addTarget(x, y) {
-    var vertexId = 'target-' + nBoxes;
+    var vertexId = 'x-' + nBoxes;
     targets.push({
         id: vertexId,
         x: x - boxWidth / 2,
@@ -48,7 +48,7 @@ function buildBox(Boxtarget, layer) {
     });
 
     var textNode = new Konva.Text({
-        text: 'Datos ' + Boxtarget.id,
+        text: Boxtarget.id,
         fontSize: 18,
         width: boxWidth,
         fontFamily: 'myfont',

@@ -16,10 +16,17 @@ stage.on('mouseup touchend', function () {
 function onSubmit() {
     if (confirm('Esta seguro de guardar los datos (se cerrara esta ventana)?')) {
         var graph = createGraph(targets, connectors);
-        var finalCurriculum = JSON.stringify(graph)
-        input.value = finalCurriculum;
+        var collectedData = {
+            college: college,
+            faculty: faculty,
+            major: major,
+            cvyear: cvyear,
+            curriculum: graph
+        };
+        var collectedData = JSON.stringify(collectedData)
+        input.value = collectedData;
         document.getElementById('malla').submit();
-    } 
+    }
 }
 
 layer.add(background);
