@@ -140,6 +140,7 @@ fieldset {
 
 .copyright {
   text-align: center;
+  color: #888;
 }
 
 #contact input:focus,
@@ -150,7 +151,7 @@ fieldset {
 
 footer {
   color: white;
-  color: rgba(0, 0, 0, 0.5);
+
   text-align: center;
 }
 
@@ -275,6 +276,7 @@ pre .val {
 }
 
 a[class*="btn"] {
+  color: #777
   text-decoration: none;
   font-family: 'Roboto';
   font-size: 20px;
