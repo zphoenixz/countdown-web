@@ -1,5 +1,6 @@
-<%- include("header") -%>
+<%- include("partials/header") -%>
 
+<div id="loader" class="loader loader-curtain" data-curtain-text="Subiendo..."></div>
 <form  id="malla" action="/malla" method="post">
     <div id="stage-parent">
         <div id="container">
@@ -13,6 +14,7 @@
     </div>
     <input type="hidden" name="curriculum" id="hiddenInput" value="ahorita nada"/>
 </form>
+
 <script>
     var college = ("<%- college %>").toUpperCase();
     var faculty = ("<%- faculty %>").toUpperCase();
@@ -24,4 +26,5 @@
 <script type="text/javascript" src="js/vertex.js"></script>
 <script type="text/javascript" src="js/edge.js"></script>
 <script type="text/javascript" src="js/actions.js"></script>
-<%- include("footer") -%>
+<script type="text/javascript" src="js/upload.js"></script>
+<%- include("partials/footer") -%>

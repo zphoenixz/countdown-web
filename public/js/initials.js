@@ -52,31 +52,6 @@ function getRelativePointerPosition(node) {
 fitStageIntoParentContainer();
 window.addEventListener('resize', fitStageIntoParentContainer);
 
-
-function createGraph(vertices, aristas) {
-    var i = 0;
-    var aux = {};
-    var graph = {};
-
-    vertices.forEach(vertice => {
-        aux[vertice.id] = [];
-        aux[vertice.id].push(vertice.subjectId);
-    });
-    aristas.forEach(arista => {
-        aux[arista.to].push(aux[arista.from][0]);
-    });
-
-    for (var key in aux) {
-        if (aux.hasOwnProperty(key)) {
-            graph[aux[key][0]] = [];
-            aux[key].forEach(subject =>{
-                graph[aux[key][0]].push(subject);
-            });
-        }
-    }
-    return graph;
-}
-
 function updateObjects() {
     targets.forEach(target => {
         if (true) {

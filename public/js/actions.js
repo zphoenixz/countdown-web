@@ -13,21 +13,30 @@ stage.on('mouseup touchend', function () {
     } catch (err) {}
 });
 
-function onSubmit() {
-    if (confirm('Esta seguro de guardar los datos (se cerrara esta ventana)?')) {
-        var graph = createGraph(targets, connectors);
-        var collectedData = {
-            college: college,
-            faculty: faculty,
-            major: major,
-            cvyear: cvyear,
-            curriculum: graph
-        };
-        var collectedData = JSON.stringify(collectedData)
-        input.value = collectedData;
-        document.getElementById('malla').submit();
+function createGraph(vertices, aristas) {
+    var i = 0;
+    var aux = {};
+    var graph = {};
+
+    vertices.forEach(vertice => {
+        aux[vertice.id] = [];
+        aux[vertice.id].push(vertice.subjectId);
+    });
+    aristas.forEach(arista => {
+        aux[arista.to].push(aux[arista.from][0]);
+    });
+
+    for (var key in aux) {
+        if (aux.hasOwnProperty(key)) {
+            graph[aux[key][0]] = [];
+            aux[key].forEach(subject => {
+                graph[aux[key][0]].push(subject);
+            });
+        }
     }
+    return graph;
 }
+
 
 layer.add(background);
 layer.add(titulo);

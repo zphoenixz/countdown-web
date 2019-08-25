@@ -15,17 +15,9 @@ function getConnectorPoints(from, to) {
 }
 
 function addConecction(from, to, result) {
-    if (from === to) {
+    if (from === to) 
         return;
-    }
-
     var id = 'connector-' + result.length;
-    // console.log("=========================");
-    // console.log(from);
-    // console.log("=========================");
-    // console.log(from.id());
-    // console.log("=========================");
-    // console.log(from.getAttr('subjectId'));
     result.push({
         id: id,
         from: from.id(),

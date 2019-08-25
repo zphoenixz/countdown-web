@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
@@ -14,7 +16,7 @@ app.use(express.static("public"));
 
 
 app.get("/", function (req, res) {
-    res.render("index");
+    res.render("index", {hola:"holitas"});
 });
 
 app.post("/", function (req, res) {
@@ -23,6 +25,7 @@ app.post("/", function (req, res) {
     var major = req.body.major;
     var cvyear = req.body.cvyear;
 
+    var firebaseKey = process.env.DB_API_KEY;
 
     res.redirect(url.format({
         pathname: "/malla",
@@ -30,25 +33,30 @@ app.post("/", function (req, res) {
             college: college,
             faculty: faculty,
             major: major,
-            cvyear: cvyear
+            cvyear: cvyear,
+            // fbkey: firebaseKey
         }
     }));
 })
 
 app.get("/malla", function (req, res) {
     console.log(req.query);
+    
     res.render("malla", req.query);
 });
 
 app.post("/malla", function (req, res) {
     var nonparsed = req.body.curriculum;
-    console.log(nonparsed);
     var parsed = JSON.parse(nonparsed)
-    console.log(parsed)
-    // res.render("malla");
-    res.status(204).send();
+
+    res.redirect("success");
+    // res.status(204).send();
 });
 
+app.get("/success", function (req, res) {
+    // console.log(req.query);
+    res.render("success");
+});
 // app.get("/:customListName", function (req, res) {
 //     const customListName = _.capitalize(req.params.customListName);
 
