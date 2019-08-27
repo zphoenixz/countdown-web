@@ -8,8 +8,8 @@ console.log(college, faculty, major, cvyear);
 var width = window.innerWidth;
 var height = window.innerHeight * 0.9;
 
-var boxWidth = width / 11;
-var boxHeight = height / 11;
+var boxWidth = width / 17;
+var boxHeight = height / 17;
 
 var nBoxes = 0;
 var targets = [];
