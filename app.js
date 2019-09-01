@@ -21,9 +21,9 @@ app.get("/", function (req, res) {
 
 app.post("/", function (req, res) {
     var college = req.body.college.replace(/\s+/g,'');
-    var faculty = req.body.faculty.college.replace(/\s+/g,'');
-    var major = req.body.major.college.replace(/\s+/g,'');
-    var cvyear = req.body.cvyear.college.replace(/\s+/g,'');
+    var faculty = req.body.faculty.replace(/\s+/g,'');
+    var major = req.body.major.replace(/\s+/g,'');
+    var cvyear = req.body.cvyear.replace(/\s+/g,'');
 
     var firebaseKey = process.env.DB_API_KEY;
 
