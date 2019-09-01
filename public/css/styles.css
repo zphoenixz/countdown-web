@@ -134,8 +134,11 @@ fieldset {
 
 #malla-form {
   display: flex;
-  width: 100%;
+  position : absolute;
+  top: 90vh;
+  left: 35vw;
   justify-content: center;
+  width: 30%;
 }
 
 .copyright {
@@ -276,7 +279,7 @@ pre .val {
 }
 
 a[class*="btn"] {
-  color: #777
+  color: rgb(255, 255, 255);
   text-decoration: none;
   font-family: 'Roboto';
   font-size: 20px;
@@ -545,7 +548,6 @@ hr:after {
   }
 }
 
-z
 
 /* Here you can change the button sizes */
 .btn.large,

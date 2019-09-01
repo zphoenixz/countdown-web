@@ -37,7 +37,6 @@ function createGraph(vertices, aristas) {
     return graph;
 }
 
-
 layer.add(background);
 layer.add(titulo);
 stage.add(layer);

@@ -6,7 +6,7 @@ console.log(college, faculty, major, cvyear);
 
 
 var width = window.innerWidth;
-var height = window.innerHeight * 0.9;
+var height = window.innerHeight * 0.97;
 
 var boxWidth = width / 17;
 var boxHeight = height / 17;
@@ -28,9 +28,7 @@ var layer = new Konva.Layer();
 // Responsive to the screen
 function fitStageIntoParentContainer() {
     var container = document.querySelector('#stage-parent');
-    // now we need to fit stage into parent
     var containerWidth = container.offsetWidth;
-    // to do this we need to scale the stage
     var scale = containerWidth / width;
 
     stage.width(width * scale);
@@ -49,6 +47,7 @@ function getRelativePointerPosition(node) {
     var pos = node.getStage().getPointerPosition();
     return transform.point(pos);
 }
+
 fitStageIntoParentContainer();
 window.addEventListener('resize', fitStageIntoParentContainer);
 
