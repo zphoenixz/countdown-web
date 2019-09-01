@@ -206,7 +206,7 @@ function buildBox(Boxtarget, layer) {
             // but don't hide on shift + enter
             if (e.keyCode === 13 && !e.shiftKey) {
                 textNode.text(textarea.value);
-                Boxtarget.subjectId = (textarea.value).toLowerCase();
+                Boxtarget.subjectId = (textarea.value).toLowerCase().replace(/\s+/g,'');
                 removeTextarea();
             }
             // on esc do not set value back to node
@@ -225,7 +225,7 @@ function buildBox(Boxtarget, layer) {
         function handleOutsideClick(e) {
             if (e.target !== textarea)
                 textNode.text(textarea.value);
-                Boxtarget.subjectId = (textarea.value).toLowerCase();
+                Boxtarget.subjectId = (textarea.value).toLowerCase().replace(/\s+/g,'');
                 removeTextarea();
         }
         setTimeout(() => {
