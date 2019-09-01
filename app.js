@@ -20,10 +20,10 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    var college = req.body.college;
-    var faculty = req.body.faculty;
-    var major = req.body.major;
-    var cvyear = req.body.cvyear;
+    var college = req.body.collegereplace(/\s+/g,'');
+    var faculty = req.body.faculty.collegereplace(/\s+/g,'');
+    var major = req.body.major.collegereplace(/\s+/g,'');
+    var cvyear = req.body.cvyear.collegereplace(/\s+/g,'');
 
     var firebaseKey = process.env.DB_API_KEY;
 
