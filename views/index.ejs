@@ -1,26 +1,38 @@
 <%- include("partials/header") -%>
 
 <div class="container">
-  <form id="contact" action="/" method="post">
+  <form autocomplete="off" id="contact" action="/" method="post">
     <h3>51% Admin page</h3>
     <h4>Paso 1: llenar datos grales...</h4>
     <fieldset>
-      <input name = "college" placeholder="Universidad" type="text" tabindex="1" required autofocus>
+      <div class="autocomplete">
+        <input id="college" name="college" placeholder="Universidad" type="text" tabindex="1" required autofocus>
+      </div>
+
     </fieldset>
     <fieldset>
-      <input name = "faculty" placeholder="Facultad" type="text" tabindex="2" required>
+      <div class="autocomplete">
+        <input id="faculty" name="faculty" placeholder="Facultad" type="text" tabindex="2" required>
+      </div>
     </fieldset>
     <fieldset>
-      <input name = "major" placeholder="Carrera" type="text" tabindex="2" required>
+      <div class="autocomplete">
+        <input id="major" name="major" placeholder="Carrera" type="text" tabindex="2" required>
+      </div>
     </fieldset>
     <fieldset>
-      <input name = "cvyear" placeholder="Año de inclusión" type="text" tabindex="3" required>
+      <div class="autocomplete">
+        <input id="cvyear" name="cvyear" placeholder="Año de inclusión" type="text" tabindex="3" required>
+      </div>
     </fieldset>
     <fieldset>
-      <button name="submit" type="submit" id="contact-submit" data-submit="...Guardando">Guardar e ir a paso 2</button>
+      <div class="autocomplete">
+        <button name="submit" type="submit" id="contact-submit" data-submit="...Guardando">Guardar e ir a paso 2</button>
+      </div>
     </fieldset>
     <p class="copyright">Designed by <a href="https://rjva.com" target="_blank" title="Colorlib">RJVA</a>
     </p>
   </form>
 </div>
+<script type="text/javascript" src="js/download.js"></script>
 <%- include("partials/footer") -%>
