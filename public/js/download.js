@@ -37,84 +37,25 @@ function autocomplete(inp, arr, path, lvl) {
     the text field element and an array of possible autocompleted values:*/
     var currentFocus;
     /*execute a function when someone writes in the text field:*/
-    inp.addEventListener("onfocusout", function (e) {
-        console.log('onfocusin', inp)
+
+    inp.addEventListener('focusin', function (e) {
+        var a, b, i, val = this.value;
+        closeAllLists();
+        createItems(a, b, i, val, this) 
     });
 
-    inp.addEventListener('focus', function (e) {
-        console.log('clicked');
-        // e.addEventListener('onfocusin', function (e) {
-        //     console.log('onfocusin');
-        // });
-        // e.addEventListener('onfocusout', function (e) {
-        //     console.log('onfocusout');
-        // });
-        // e.focus();
-    });
+    // inp.addEventListener('focusout', function (e) {
+    //     closeAllLists();
+    // });
 
     inp.addEventListener("input", function (e) {
         // console.log('input', inp)
         var a, b, i, val = this.value;
         /*close any already open lists of autocompleted values*/
         closeAllLists();
-        if (!val) {
-            return false;
-        }
-        currentFocus = -1;
-        /*create a DIV element that will contain the items (values):*/
-        a = document.createElement("DIV");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        /*append the DIV element as a child of the autocomplete container:*/
-        this.parentNode.appendChild(a);
-        /*for each item in the array...*/
-        for (i = 0; i < arr.length; i++) {
-            /*check if the item starts with the same letters as the text field value:*/
-            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                /*create a DIV element for each matching element:*/
-                b = document.createElement("DIV");
-                /*make the matching letters bold:*/
-                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                b.innerHTML += arr[i].substr(val.length);
-                /*insert a input field that will hold the current array item's value:*/
-                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                /*execute a function when someone clicks on the item value (DIV element):*/
-                b.addEventListener("click", function (e) {
-                    /*insert the value for the autocomplete text field:*/
-                    var val = this.getElementsByTagName("input")[0].value
-                    inp.value = val;
-                    if (lvl == 1) {
-                        autocomplete(document.getElementById("faculty"), colleges[val], val, 2);
-                    } else if (lvl == 2) {
-                        majors = []
-                        db.collection("BOLIVIA/" + path + '/' + val).get().then(function (querySnapshot) {
-                            querySnapshot.forEach(function (major) {
-                                majors.push(major.id);
-                                var data = major.data()
-                                years = []
-                                for (var key in data) {
-                                    if (data.hasOwnProperty(key)) {
-                                        var year = data[key];
-                                        years.push(year);
-                                    }
-                                }
+        createItems(a, b, i, val, this) 
 
-                                cvyear[major.id] = years;
-                            });
-                        });
-                        console.log(majors, cvyear)
-                        autocomplete(document.getElementById("major"), majors, val, 3);
-                    } else if (lvl == 3) {
-                        autocomplete(document.getElementById("cvyear"), cvyear[val], 'nada', 4);
-                    }
 
-                    /*close the list of autocompleted values,
-                    (or any other open lists of autocompleted values:*/
-                    closeAllLists();
-                });
-                a.appendChild(b);
-            }
-        }
     });
     /*execute a function presses a key on the keyboard:*/
     inp.addEventListener("keydown", function (e) {
@@ -141,6 +82,65 @@ function autocomplete(inp, arr, path, lvl) {
             }
         }
     });
+
+    function createItems(a, b, i, val, object) {
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", object.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        object.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+            /*check if the item starts with the same letters as the text field value:*/
+            // console.log(val)
+            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase() || val.toUpperCase() == "") {
+                /*create a DIV element for each matching element:*/
+                
+                b = document.createElement("DIV");
+                b.className = 'autocomplete_div';
+                /*make the matching letters bold:*/
+                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += arr[i].substr(val.length);
+                /*insert a input field that will hold the current array item's value:*/
+                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                /*execute a function when someone clicks on the item value (DIV element):*/
+                b.addEventListener("click", function (e) {
+                    /*insert the value for the autocomplete text field:*/
+                    var val = this.getElementsByTagName("input")[0].value
+                    inp.value = val;
+                    if (lvl == 1) {
+                        autocomplete(document.getElementById("faculty"), colleges[val], val, 2);
+                    } else if (lvl == 2) {
+                        majors = []
+                        db.collection("BOLIVIA/" + path + '/' + val).get().then(function (querySnapshot) {
+                            querySnapshot.forEach(function (major) {
+                                majors.push(major.id);
+                                var data = major.data()
+                                years = []
+                                for (var key in data) {
+                                    if (data.hasOwnProperty(key)) {
+                                        var year = data[key];
+                                        years.push(year);
+                                    }
+                                }
+                                cvyear[major.id] = years;
+                            });
+                        });
+                        // console.log(majors, cvyear)
+                        autocomplete(document.getElementById("major"), majors, val, 3);
+                    } else if (lvl == 3) {
+                        autocomplete(document.getElementById("cvyear"), cvyear[val], 'nada', 4);
+                    }
+                    /*close the list of autocompleted values,
+                    (or any other open lists of autocompleted values:*/
+                    closeAllLists();
+                });
+                a.appendChild(b);
+            }
+        }
+    }
 
     function addActive(x) {
         /*a function to classify an item as "active":*/
@@ -171,9 +171,9 @@ function autocomplete(inp, arr, path, lvl) {
         }
     }
     /*execute a function when someone clicks in the document:*/
-    document.addEventListener("click", function (e) {
-        closeAllLists(e.target);
-    });
+    // document.addEventListener("click", function (e) {
+    //     closeAllLists(e.target);
+    // });
 }
 
 autocomplete(document.getElementById("college"), collegeCompletion, "nada", 1);
