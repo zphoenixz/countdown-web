@@ -1,38 +1,59 @@
 // // Your web app's Firebase configuration
-// var firebaseConfig = {
-//     apiKey: "AIzaSyDgwBYKRyffOGTX2aXAVqcfPddv9Dzgw8E",
-//     authDomain: "schedules-6415d.firebaseapp.com",
-//     databaseURL: "https://schedules-6415d.firebaseio.com",
-//     projectId: "schedules-6415d",
-//     storageBucket: "schedules-6415d.appspot.com",
-//     messagingSenderId: "576534115494",
-//     appId: "1:576534115494:web:c72bfea28c2d98c8"
-// };
-// // Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
-// const usersRef = db.collection('users').doc('id')
+var firebaseConfig = {
+    apiKey: "AIzaSyDgwBYKRyffOGTX2aXAVqcfPddv9Dzgw8E",
+    authDomain: "schedules-6415d.firebaseapp.com",
+    databaseURL: "https://schedules-6415d.firebaseio.com",
+    projectId: "schedules-6415d",
+    storageBucket: "schedules-6415d.appspot.com",
+    messagingSenderId: "576534115494",
+    appId: "1:576534115494:web:c72bfea28c2d98c8"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-// usersRef.get()
-//     .then((docSnapshot) => {
-//         if (docSnapshot.exists) {
-//             usersRef.onSnapshot((doc) => {
-//                 // do stuff with the data
-//             });
-//         } 
-//     });
+var colleges = {}
+var collegeCompletion = []
+db.collection("BOLIVIA").get().then(function (querySnapshot) {
+    querySnapshot.forEach(function (college) {
+        faculties = []
+        // faculties[college.id] = college.id;
+        collegeCompletion.push(college.id);
+        var data = college.data()
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                var faculty = data[key];
+                faculties.push(faculty);
+            }
+        }
+        colleges[college.id] = faculties;
+    });
+});
 
-// db.doc(collectedData.college + '/' + collectedData.faculty + '/' + collectedData.major + '/' +collectedData.cvyear).set(collectedData.curriculum).then(function (resp) {
-//     console.log(resp);
+var cvyear = {}
 
-//     document.getElementById('malla').submit();
-//     document.getElementById("loader").className = "loader loader-curtain";
-// });
-function autocomplete(inp, arr) {
+function autocomplete(inp, arr, path, lvl) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
     var currentFocus;
     /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("onfocusout", function (e) {
+        console.log('onfocusin', inp)
+    });
+
+    inp.addEventListener('focus', function (e) {
+        console.log('clicked');
+        // e.addEventListener('onfocusin', function (e) {
+        //     console.log('onfocusin');
+        // });
+        // e.addEventListener('onfocusout', function (e) {
+        //     console.log('onfocusout');
+        // });
+        // e.focus();
+    });
+
     inp.addEventListener("input", function (e) {
+        // console.log('input', inp)
         var a, b, i, val = this.value;
         /*close any already open lists of autocompleted values*/
         closeAllLists();
@@ -60,7 +81,33 @@ function autocomplete(inp, arr) {
                 /*execute a function when someone clicks on the item value (DIV element):*/
                 b.addEventListener("click", function (e) {
                     /*insert the value for the autocomplete text field:*/
-                    inp.value = this.getElementsByTagName("input")[0].value;
+                    var val = this.getElementsByTagName("input")[0].value
+                    inp.value = val;
+                    if (lvl == 1) {
+                        autocomplete(document.getElementById("faculty"), colleges[val], val, 2);
+                    } else if (lvl == 2) {
+                        majors = []
+                        db.collection("BOLIVIA/" + path + '/' + val).get().then(function (querySnapshot) {
+                            querySnapshot.forEach(function (major) {
+                                majors.push(major.id);
+                                var data = major.data()
+                                years = []
+                                for (var key in data) {
+                                    if (data.hasOwnProperty(key)) {
+                                        var year = data[key];
+                                        years.push(year);
+                                    }
+                                }
+
+                                cvyear[major.id] = years;
+                            });
+                        });
+                        console.log(majors, cvyear)
+                        autocomplete(document.getElementById("major"), majors, val, 3);
+                    } else if (lvl == 3) {
+                        autocomplete(document.getElementById("cvyear"), cvyear[val], 'nada', 4);
+                    }
+
                     /*close the list of autocompleted values,
                     (or any other open lists of autocompleted values:*/
                     closeAllLists();
@@ -129,9 +176,4 @@ function autocomplete(inp, arr) {
     });
 }
 
-
-var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
-autocomplete(document.getElementById("college"), countries);
-autocomplete(document.getElementById("faculty"), countries);
-autocomplete(document.getElementById("major"), countries);
-autocomplete(document.getElementById("cvyear"), countries);
+autocomplete(document.getElementById("college"), collegeCompletion, "nada", 1);

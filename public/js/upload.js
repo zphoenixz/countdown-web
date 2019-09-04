@@ -11,12 +11,6 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
-  // db.collection('ucb').get().then((snapshot) => {
-  //   snapshot.docs.forEach(doc => {
-  //     console.log(doc.data());
-  //   });
-  // });
-
 
   function onSubmit() {
     if (confirm('Esta seguro de guardar los datos (se cerrara esta ventana)?')) {
@@ -33,11 +27,21 @@
 
       document.getElementById("loader").className = "loader loader-curtain is-active";
 
-      db.doc(collectedData.college + '/' + collectedData.faculty + '/' + collectedData.major + '/' +collectedData.cvyear).set(collectedData.curriculum).then(function (resp) {
-        console.log(resp);
+      db.doc('BOLIVIA/' + collectedData.college).set(
+        JSON.parse('{"'+ collectedData.faculty +'":"' + collectedData.faculty + '"}')
+      , { merge: true });
+      db.doc('BOLIVIA/' + collectedData.college + '/' + collectedData.faculty + '/' + collectedData.major).set(
+        JSON.parse('{"'+ collectedData.cvyear +'":"' + collectedData.cvyear + '"}')
+      ,{ merge: true });
 
+
+      db.collection('BOLIVIA/' + collectedData.college + '/' + collectedData.faculty + '/' + collectedData.major + '/' + collectedData.cvyear).add(collectedData.curriculum).then(function (resp) {
         document.getElementById('malla').submit();
         document.getElementById("loader").className = "loader loader-curtain";
+      }).catch(function (error) {
+        document.getElementById("loader").className = "loader loader-curtain";
+        // alert('Ocurrio un error al subir los datos, intenta mas tarde.')
+        console.error("Error writing document: ", error);
       });
     }
   }
