@@ -35,7 +35,7 @@
       ,{ merge: true });
 
 
-      db.collection('BOLIVIA/' + collectedData.college + '/' + collectedData.faculty + '/' + collectedData.major + '/' + collectedData.cvyear).add(collectedData.curriculum).then(function (resp) {
+      db.doc('BOLIVIA/' + collectedData.college + '/' + collectedData.faculty + '/' + collectedData.major + '/' + collectedData.cvyear + '/curriculum').set(collectedData.curriculum).then(function (resp) {
         document.getElementById('malla').submit();
         document.getElementById("loader").className = "loader loader-curtain";
       }).catch(function (error) {

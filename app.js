@@ -24,6 +24,7 @@ app.post("/", function (req, res) {
     var faculty = req.body.faculty.replace(/\s+/g,'');
     var major = req.body.major.replace(/\s+/g,'');
     var cvyear = req.body.cvyear.replace(/\s+/g,'');
+    var modify = req.body.modify;
 
     var firebaseKey = process.env.DB_API_KEY;
 
@@ -34,6 +35,7 @@ app.post("/", function (req, res) {
             faculty: faculty,
             major: major,
             cvyear: cvyear,
+            modify: modify
             // fbkey: firebaseKey
         }
     }));

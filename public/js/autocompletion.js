@@ -1,4 +1,3 @@
-// // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyDgwBYKRyffOGTX2aXAVqcfPddv9Dzgw8E",
     authDomain: "schedules-6415d.firebaseapp.com",
@@ -12,50 +11,49 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-var colleges = {}
-var collegeCompletion = []
-db.collection("BOLIVIA").get().then(function (querySnapshot) {
-    querySnapshot.forEach(function (college) {
-        faculties = []
-        // faculties[college.id] = college.id;
-        collegeCompletion.push(college.id);
-        var data = college.data()
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                var faculty = data[key];
-                faculties.push(faculty);
+function getData(path){
+    var collegess = {}
+    var collegeCompletionn = []
+    
+    db.collection(path).get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (parent) {
+            childs = []
+            collegeCompletionn.push(parent.id);
+
+            var data = parent.data()
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) {
+                    var faculty = data[key];
+                    childs.push(faculty);
+                }
             }
-        }
-        colleges[college.id] = faculties;
+            collegess[parent.id] = childs;
+        });
     });
-});
 
-var cvyear = {}
+    return [collegess, collegeCompletionn]
+}
 
-function autocomplete(inp, arr, path, lvl) {
+function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
     var currentFocus;
+    var a, b, i, val 
+    
     /*execute a function when someone writes in the text field:*/
 
     inp.addEventListener('focusin', function (e) {
-        var a, b, i, val = this.value;
+        var object = this;
+        a, b, i, val = this.value;
         closeAllLists();
-        createItems(a, b, i, val, this) 
+                createItems(a, b, i, val, object); 
     });
 
-    // inp.addEventListener('focusout', function (e) {
-    //     closeAllLists();
-    // });
-
     inp.addEventListener("input", function (e) {
-        // console.log('input', inp)
-        var a, b, i, val = this.value;
+        a, b, i, val = this.value;
         /*close any already open lists of autocompleted values*/
         closeAllLists();
         createItems(a, b, i, val, this) 
-
-
     });
     /*execute a function presses a key on the keyboard:*/
     inp.addEventListener("keydown", function (e) {
@@ -83,7 +81,7 @@ function autocomplete(inp, arr, path, lvl) {
         }
     });
 
-    function createItems(a, b, i, val, object) {
+    function createItems(a, b, i, value, object) {
         currentFocus = -1;
         /*create a DIV element that will contain the items (values):*/
         a = document.createElement("DIV");
@@ -94,15 +92,14 @@ function autocomplete(inp, arr, path, lvl) {
         /*for each item in the array...*/
         for (i = 0; i < arr.length; i++) {
             /*check if the item starts with the same letters as the text field value:*/
-            // console.log(val)
-            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase() || val.toUpperCase() == "") {
+            if (arr[i].substr(0, value.length).toUpperCase() == value.toUpperCase()) {
                 /*create a DIV element for each matching element:*/
-                
+                // console.log("adentro if" + arr[i]);
                 b = document.createElement("DIV");
                 b.className = 'autocomplete_div';
                 /*make the matching letters bold:*/
-                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                b.innerHTML += arr[i].substr(val.length);
+                b.innerHTML = "<strong>" + arr[i].substr(0, value.length) + "</strong>";
+                b.innerHTML += arr[i].substr(value.length);
                 /*insert a input field that will hold the current array item's value:*/
                 b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
                 /*execute a function when someone clicks on the item value (DIV element):*/
@@ -110,36 +107,22 @@ function autocomplete(inp, arr, path, lvl) {
                     /*insert the value for the autocomplete text field:*/
                     var val = this.getElementsByTagName("input")[0].value
                     inp.value = val;
-                    if (lvl == 1) {
-                        autocomplete(document.getElementById("faculty"), colleges[val], val, 2);
-                    } else if (lvl == 2) {
-                        majors = []
-                        db.collection("BOLIVIA/" + path + '/' + val).get().then(function (querySnapshot) {
-                            querySnapshot.forEach(function (major) {
-                                majors.push(major.id);
-                                var data = major.data()
-                                years = []
-                                for (var key in data) {
-                                    if (data.hasOwnProperty(key)) {
-                                        var year = data[key];
-                                        years.push(year);
-                                    }
-                                }
-                                cvyear[major.id] = years;
-                            });
-                        });
-                        // console.log(majors, cvyear)
-                        autocomplete(document.getElementById("major"), majors, val, 3);
-                    } else if (lvl == 3) {
-                        autocomplete(document.getElementById("cvyear"), cvyear[val], 'nada', 4);
-                    }
+                    var event = new Event('keyup');
+                    inp.dispatchEvent(event)
+                    var event = new Event('focusout');
+                    inp.dispatchEvent(event)
                     /*close the list of autocompleted values,
                     (or any other open lists of autocompleted values:*/
                     closeAllLists();
+                    
                 });
                 a.appendChild(b);
             }
         }
+    }
+
+    function start(){
+        
     }
 
     function addActive(x) {
@@ -170,10 +153,4 @@ function autocomplete(inp, arr, path, lvl) {
             }
         }
     }
-    /*execute a function when someone clicks in the document:*/
-    // document.addEventListener("click", function (e) {
-    //     closeAllLists(e.target);
-    // });
 }
-
-autocomplete(document.getElementById("college"), collegeCompletion, "nada", 1);

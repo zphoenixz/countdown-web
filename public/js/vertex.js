@@ -292,7 +292,7 @@ function buildBox(Boxtarget, layer) {
 
     plugObject.on('mouseover', function () {
         if(currentCursor == 'default')
-            document.body.style.cursor = 'pointer';
+            document.body.style.cursor = 'grab';
         plugIcon.src = '../icons/plug2.png';
     });
     plugObject.on('mouseout', function () {
