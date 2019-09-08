@@ -94,7 +94,6 @@ function autocomplete(inp, arr) {
             /*check if the item starts with the same letters as the text field value:*/
             if (arr[i].substr(0, value.length).toUpperCase() == value.toUpperCase()) {
                 /*create a DIV element for each matching element:*/
-                // console.log("adentro if" + arr[i]);
                 b = document.createElement("DIV");
                 b.className = 'autocomplete_div';
                 /*make the matching letters bold:*/

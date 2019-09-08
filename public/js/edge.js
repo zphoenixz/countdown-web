@@ -33,6 +33,25 @@ function addConecction(from, to, result) {
     layer.add(line);
 }
 
+function addLoadedConecction(from, to, result) {
+    if (from === to) 
+        return;
+    var id = 'connector-' + result.length;
+    result.push({
+        id: id,
+        from: from,
+        to: to,
+        // fromSubjectId: from.subjectId
+    });
+
+    var line = new Konva.Arrow({
+        stroke: 'black',
+        id: id,
+        fill: 'black'
+    });
+    layer.add(line);
+}
+
 function deleteConecction(boxtarget) {
     var targetId = boxtarget.id;
 
@@ -47,18 +66,11 @@ function deleteConecction(boxtarget) {
     updateObjects();
 }
 
-// function generateInitialConnectors() {
-//     var number = 0;
-//     var result = [];
-//     while (result.length < number) {
-//         var from = 'target-' + Math.floor(Math.random() * targets.length);
-//         var to = 'target-' + Math.floor(Math.random() * targets.length);
-//         addConecction(from, to, result);
-//     }
-//     return result;
-// }
-
-// var connectors = generateInitialConnectors();
+if(modify == 'true'){
+    checkData();
+}else{
+    generateInitialTargets();
+}
 
 connectors.forEach(connect => {
     var line = new Konva.Arrow({
@@ -68,4 +80,5 @@ connectors.forEach(connect => {
     });
     layer.add(line);
 });
+
 

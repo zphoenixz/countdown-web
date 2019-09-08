@@ -1,7 +1,7 @@
 stage.on('contentContextmenu', (e) => {
     e.evt.preventDefault();
     var pos = stage.getPointerPosition();
-    addTarget(pos.x, pos.y);
+    addTarget(pos.x, pos.y, "x" + (targets.length - 1));
     updateObjects();
 });
 stage.on('mouseup touchend', function () {
@@ -21,6 +21,7 @@ function createGraph(vertices, aristas) {
     vertices.forEach(vertice => {
         aux[vertice.id] = [];
         aux[vertice.id].push(vertice.subjectId);
+        aux[vertice.id].push((vertice.x / width).toFixed(3) + "%;" + (vertice.y / height).toFixed(3));
     });
     aristas.forEach(arista => {
         aux[arista.to].push(aux[arista.from][0]);

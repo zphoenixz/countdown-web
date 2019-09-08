@@ -1,16 +1,4 @@
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDgwBYKRyffOGTX2aXAVqcfPddv9Dzgw8E",
-    authDomain: "schedules-6415d.firebaseapp.com",
-    databaseURL: "https://schedules-6415d.firebaseio.com",
-    projectId: "schedules-6415d",
-    storageBucket: "schedules-6415d.appspot.com",
-    messagingSenderId: "576534115494",
-    appId: "1:576534115494:web:c72bfea28c2d98c8"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+
 
   function onSubmit() {
     if (confirm('Esta seguro de guardar los datos (se cerrara esta ventana)?')) {

@@ -1,9 +1,18 @@
-// var college = "<%- college %>";
-// var faculty = "<%- faculty %>";
-// var major = "<%- major %>";
-// var cvyear = "<%- cvyear %>";
-console.log(college, faculty, major, cvyear);
+console.log(college, faculty, major, cvyear, modify);
 
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyDgwBYKRyffOGTX2aXAVqcfPddv9Dzgw8E",
+    authDomain: "schedules-6415d.firebaseapp.com",
+    databaseURL: "https://schedules-6415d.firebaseio.com",
+    projectId: "schedules-6415d",
+    storageBucket: "schedules-6415d.appspot.com",
+    messagingSenderId: "576534115494",
+    appId: "1:576534115494:web:c72bfea28c2d98c8"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 var width = window.innerWidth;
 var height = window.innerHeight * 0.97;
@@ -11,7 +20,6 @@ var height = window.innerHeight * 0.97;
 var boxWidth = width / 24;
 var boxHeight = height / 26;
 
-var nBoxes = 0;
 var targets = [];
 
 var currentCursor = 'default';
@@ -91,3 +99,11 @@ var background = new Konva.Rect({
     height: boxHeight / 2,
     fill: 'black'
 });
+
+
+async function checkData() {
+    const pathtodb = "BOLIVIA/" + college + '/' + faculty + '/' + major + '/' + cvyear + '/curriculum';
+    let curriculum = await db.doc(pathtodb).get();
+    let data = curriculum.data();
+    loadTargets(data);
+}

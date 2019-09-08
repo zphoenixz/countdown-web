@@ -89,13 +89,13 @@ function checkData() {
                 exists = doc.id;
             });
             if (exists != "") {
-                console.log("Existe, existe!!!");
+                // console.log("Existe, existe!!!");
                 submitButton.style.backgroundColor = "rgb(247,181,16)"; 
                 submitButton.innerText = "Modify existent curriculum...";
                 modifyCurriculum = true;
                 modifyInput.value = true;
             } else {
-                console.log("No existe, no existe!!!");
+                // console.log("No existe, no existe!!!");
                 submitButton.style.backgroundColor = "#6DA2D9"; 
                 submitButton.innerText = "Create new curriculum...";
                 modifyCurriculum = false;

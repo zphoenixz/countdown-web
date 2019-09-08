@@ -7,8 +7,7 @@ function findIndex(nombre, lista) {
     return index;
 }
 
-function addTarget(x, y) {
-    var vertexId = 'x-' + nBoxes;
+function addTarget(x, y, vertexId) {
     targets.push({
         id: vertexId,
         x: x - boxWidth / 2,
@@ -17,7 +16,6 @@ function addTarget(x, y) {
         subjectId: vertexId
     });
 
-    nBoxes++;
     buildBox(targets[targets.length - 1], layer);
 }
 
@@ -270,7 +268,6 @@ function buildBox(Boxtarget, layer) {
         currentImageSource = '../icons/plug2.png';
         plugIcon.src = currentImageSource;
         vertexDragged = group;
-        // console.log(vertexDragged.getChildren()[4].image());
     });
 
     plugObject.on('mouseup touchend', function () {
@@ -280,7 +277,6 @@ function buildBox(Boxtarget, layer) {
         group.draggable(true);
         currentImageSource = '../icons/plug1.png';
         plugIcon.src = currentImageSource;
-        // console.log(vertexDragged.id());
         addConecction(vertexDragged, group, connectors);
         updateObjects();
     });
@@ -307,13 +303,30 @@ function buildBox(Boxtarget, layer) {
     });
 }
 
+function loadTargets(loadedTargets) {
+    for (var key in loadedTargets) {
+        if (loadedTargets.hasOwnProperty(key)) {
+            var loadedTarget = loadedTargets[key];
+            let pos = loadedTarget[1].split("%;");
+            let x = parseFloat(pos[0])*width;
+            let y = parseFloat(pos[1])*height;
+            addTarget(x, y, loadedTarget[0]);
+
+            for(var i = 2; i < loadedTarget.length; i++){
+                addLoadedConecction(loadedTarget[i], loadedTarget[0], connectors);
+            }
+        }
+    }
+    
+}
+
 function generateInitialTargets() {
-    var number = 4;
+    var number = 2;
+    var nBoxes = 0;
     while (targets.length < number) {
         let x = (width * Math.random())
         let y = (height * Math.random());
-        addTarget(x, y);
-        // console.log(result[result.length-1]);
+        addTarget(x, y, 'x-' + nBoxes);
+        nBoxes ++;
     }
 }
-generateInitialTargets();
