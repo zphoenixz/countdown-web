@@ -19,7 +19,7 @@ var height = window.innerHeight * 0.97;
 
 var boxHeight = Math.ceil(height / 26);
 var boxWidth = Math.ceil(boxHeight * 3);
-
+var nBoxes = 0;
 
 var targets = [];
 

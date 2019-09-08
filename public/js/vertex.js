@@ -336,13 +336,12 @@ function loadTargets(loadedTargets) {
             let x = parseFloat(pos[0]) * width;
             let y = parseFloat(pos[1]) * height;
             addTarget(x, y, loadedTarget[0]);
-
+            nBoxes++;
             for (var i = 2; i < loadedTarget.length; i++) {
                 addLoadedConecction(loadedTarget[i], loadedTarget[0], connectors);
             }
         }
     }
-
 }
 
 function getRandomInt(min, max) {
@@ -353,7 +352,6 @@ function getRandomInt(min, max) {
 
 function generateInitialTargets() {
     var number = 5;
-    var nBoxes = 0;
     let min = 1, maxX = (width / padding) - 3, maxY = (height / padding) - 1;
 
     while (targets.length < number) {
@@ -361,7 +359,8 @@ function generateInitialTargets() {
         let ry = getRandomInt(min, maxY);
         let x = padding * rx //padding
         let y = padding * ry
-        console.log(rx,ry);
+        console.log(nBoxes);
+
         addTarget(x, y, 'x-' + nBoxes);
         nBoxes++;
     }

@@ -1,7 +1,8 @@
 stage.on('contentContextmenu', (e) => {
     e.evt.preventDefault();
     var pos = stage.getPointerPosition();
-    addTarget(pos.x, pos.y, "x" + (targets.length - 1));
+    addTarget(pos.x, pos.y, 'x-' + nBoxes);
+    nBoxes++;
     updateObjects();
 });
 stage.on('mouseup touchend', function () {
