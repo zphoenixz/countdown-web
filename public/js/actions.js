@@ -38,7 +38,11 @@ function createGraph(vertices, aristas) {
     return graph;
 }
 
+shadowRectangle.hide();
+layer.add(shadowRectangle);
+
 layer.add(background);
 layer.add(titulo);
+stage.add(gridLayer);
 stage.add(layer);
 updateObjects();

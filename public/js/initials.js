@@ -17,8 +17,9 @@ const db = firebase.firestore();
 var width = window.innerWidth;
 var height = window.innerHeight * 0.97;
 
-var boxWidth = width / 24;
-var boxHeight = height / 26;
+var boxHeight = Math.ceil(height / 26);
+var boxWidth = Math.ceil(boxHeight * 3);
+
 
 var targets = [];
 
@@ -107,3 +108,42 @@ async function checkData() {
     let data = curriculum.data();
     loadTargets(data);
 }
+
+
+var shadowOffset = 20;
+var tween = null;
+var blockSnapSize = 30;
+
+var gridLayer = new Konva.Layer();
+var padding = boxHeight;
+
+for (var i = 0; i < width / padding; i++) {
+    gridLayer.add(new Konva.Line({
+        points: [Math.round(i * padding) + 0.5, 0, Math.round(i * padding) + 0.5, height],
+        stroke: '#ddd',
+        strokeWidth: 1,
+    }));
+}
+
+gridLayer.add(new Konva.Line({
+    points: [0, 0, 10, 10]
+}));
+for (var j = 0; j < height / padding; j++) {
+    gridLayer.add(new Konva.Line({
+        points: [0, Math.round(j * padding), width, Math.round(j * padding)],
+        stroke: '#ddd',
+        strokeWidth: 0.5,
+    }));
+}
+
+var shadowRectangle = new Konva.Rect({
+    x: 0,
+    y: 0,
+    width: padding * 3,
+    height: padding * 1,
+    fill: '#FF7B17',
+    opacity: 0.6,
+    stroke: '#CF6412',
+    strokeWidth: 3,
+    dash: [20, 2]
+});

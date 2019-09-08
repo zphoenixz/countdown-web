@@ -1,4 +1,3 @@
-
 function findIndex(nombre, lista) {
     var index = -1;
     for (var i = 0; i < lista.length; i++)
@@ -10,8 +9,8 @@ function findIndex(nombre, lista) {
 function addTarget(x, y, vertexId) {
     targets.push({
         id: vertexId,
-        x: x - boxWidth / 2,
-        y: y - boxHeight / 2,
+        x: x,
+        y: y,
         visible: true,
         subjectId: vertexId
     });
@@ -28,6 +27,7 @@ function deleteTarget(boxtarget) {
 }
 
 function buildBox(Boxtarget, layer) {
+    // console.log(Boxtarget.x, Boxtarget.y);
     var group = new Konva.Group({
         id: Boxtarget.id,
         x: Boxtarget.x,
@@ -66,8 +66,8 @@ function buildBox(Boxtarget, layer) {
     });
 
     var circleDel = new Konva.Circle({
-        x: 0 - boxHeight / 8,
-        y: 0 - boxHeight / 8,
+        x: 0,
+        y: 0,
         radius: boxHeight / 4,
         fill: '#d15963',
         stroke: 'black',
@@ -82,7 +82,10 @@ function buildBox(Boxtarget, layer) {
         height: imageRadius,
         shadowColor: 'black',
         shadowBlur: 10,
-        shadowOffset: { x: 10, y: 10 },
+        shadowOffset: {
+            x: 10,
+            y: 10
+        },
         shadowOpacity: 0.5
     });
 
@@ -107,7 +110,6 @@ function buildBox(Boxtarget, layer) {
     textNode.on('dblclick', () => {
         textNode.hide();
         tr.hide();
-        // layer.draw();
         updateObjects();
         var textPosition = group.absolutePosition();
         var stageBox = stage.container().getBoundingClientRect();
@@ -157,7 +159,7 @@ function buildBox(Boxtarget, layer) {
             navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
         if (isFirefox)
             px += 2 + Math.round(textNode.fontSize() / 20);
-        
+
         transform += 'translateY(-' + px + 'px)';
         textarea.style.transform = transform;
 
@@ -193,7 +195,7 @@ function buildBox(Boxtarget, layer) {
 
             var isEdge =
                 document.documentMode || /Edge/.test(navigator.userAgent);
-            if (isEdge) 
+            if (isEdge)
                 newWidth += 1;
 
             textarea.style.width = newWidth + 'px';
@@ -204,7 +206,7 @@ function buildBox(Boxtarget, layer) {
             // but don't hide on shift + enter
             if (e.keyCode === 13 && !e.shiftKey) {
                 textNode.text(textarea.value);
-                Boxtarget.subjectId = (textarea.value).toLowerCase().replace(/\s+/g,'');
+                Boxtarget.subjectId = (textarea.value).toLowerCase().replace(/\s+/g, '');
                 removeTextarea();
             }
             // on esc do not set value back to node
@@ -223,8 +225,8 @@ function buildBox(Boxtarget, layer) {
         function handleOutsideClick(e) {
             if (e.target !== textarea)
                 textNode.text(textarea.value);
-                Boxtarget.subjectId = (textarea.value).toLowerCase().replace(/\s+/g,'');
-                removeTextarea();
+            Boxtarget.subjectId = (textarea.value).toLowerCase().replace(/\s+/g, '');
+            removeTextarea();
         }
         setTimeout(() => {
             window.addEventListener('click', handleOutsideClick);
@@ -232,7 +234,7 @@ function buildBox(Boxtarget, layer) {
     });
 
     textNode.on('mouseover', function () {
-        if(currentCursor == 'default')
+        if (currentCursor == 'default')
             document.body.style.cursor = 'text';
     });
     textNode.on('mouseout', function () {
@@ -240,7 +242,7 @@ function buildBox(Boxtarget, layer) {
     });
 
     circleDel.on('mouseover', function () {
-        if(currentCursor == 'default')
+        if (currentCursor == 'default')
             document.body.style.cursor = 'url(icons/delete.png), auto';
     });
     circleDel.on('mouseout', function () {
@@ -252,7 +254,7 @@ function buildBox(Boxtarget, layer) {
     });
 
     box.on('mouseover', function (e) {
-        if(currentCursor == 'default')
+        if (currentCursor == 'default')
             document.body.style.cursor = 'move';
     });
     box.on('mouseout', function () {
@@ -260,7 +262,7 @@ function buildBox(Boxtarget, layer) {
     });
 
     plugObject.on('mousedown touchstart', function () {
-        
+
         currentCursor = 'url(icons/plug0.png), auto';
         document.body.style.cursor = currentCursor;
 
@@ -287,7 +289,7 @@ function buildBox(Boxtarget, layer) {
     // });
 
     plugObject.on('mouseover', function () {
-        if(currentCursor == 'default')
+        if (currentCursor == 'default')
             document.body.style.cursor = 'grab';
         plugIcon.src = '../icons/plug2.png';
     });
@@ -296,9 +298,32 @@ function buildBox(Boxtarget, layer) {
         plugIcon.src = currentImageSource;
     });
 
+    group.on('dragstart', (e) => {
+        shadowRectangle.show();
+        shadowRectangle.moveToTop();
+        group.moveToTop();
+    });
+    group.on('dragend', (e) => {
+        Boxtarget.x = Math.round(group.x() / padding) * padding;
+        Boxtarget.y = Math.round(group.y() / padding) * padding;
+
+        group.position({
+            x: Boxtarget.x,
+            y: Boxtarget.y
+        });
+
+        stage.batchDraw();
+        shadowRectangle.hide();
+    });
     group.on('dragmove', () => {
-        Boxtarget.x = group.x();
-        Boxtarget.y = group.y();
+        Boxtarget.x = Math.round(group.x() / padding) * padding;
+        Boxtarget.y = Math.round(group.y() / padding) * padding;
+
+        shadowRectangle.position({
+            x: Boxtarget.x,
+            y: Boxtarget.y
+        });
+
         updateObjects();
     });
 }
@@ -308,25 +333,36 @@ function loadTargets(loadedTargets) {
         if (loadedTargets.hasOwnProperty(key)) {
             var loadedTarget = loadedTargets[key];
             let pos = loadedTarget[1].split("%;");
-            let x = parseFloat(pos[0])*width;
-            let y = parseFloat(pos[1])*height;
+            let x = parseFloat(pos[0]) * width;
+            let y = parseFloat(pos[1]) * height;
             addTarget(x, y, loadedTarget[0]);
 
-            for(var i = 2; i < loadedTarget.length; i++){
+            for (var i = 2; i < loadedTarget.length; i++) {
                 addLoadedConecction(loadedTarget[i], loadedTarget[0], connectors);
             }
         }
     }
-    
+
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
 function generateInitialTargets() {
-    var number = 2;
+    var number = 5;
     var nBoxes = 0;
+    let min = 1, maxX = (width / padding) - 3, maxY = (height / padding) - 1;
+
     while (targets.length < number) {
-        let x = (width * Math.random())
-        let y = (height * Math.random());
+        let rx = getRandomInt(min, maxX);
+        let ry = getRandomInt(min, maxY);
+        let x = padding * rx //padding
+        let y = padding * ry
+        console.log(rx,ry);
         addTarget(x, y, 'x-' + nBoxes);
-        nBoxes ++;
+        nBoxes++;
     }
 }

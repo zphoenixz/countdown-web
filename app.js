@@ -43,7 +43,6 @@ app.post("/", function (req, res) {
 
 app.get("/malla", function (req, res) {
     console.log(req.query);
-    
     res.render("malla", req.query);
 });
 
@@ -56,7 +55,6 @@ app.post("/malla", function (req, res) {
 });
 
 app.get("/success", function (req, res) {
-    // console.log(req.query);
     res.render("success");
 });
 // app.get("/:customListName", function (req, res) {
