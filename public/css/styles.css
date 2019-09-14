@@ -144,6 +144,27 @@ fieldset {
   width: 30%;
 }
 
+#malla-home {
+  display: flex;
+  position : absolute;
+  justify-content: center;
+  /* width: 20%; */
+}
+
+.malla-home span.icon {
+  background: url(../icons/home2.png) no-repeat;
+  top: 91vh;
+  left: 1vw;
+  position : absolute;
+  width: 50px;
+  height: 51px;
+
+  border: 1px solid rgba(0, 0, 0, 0.21);
+  border-bottom: 6px solid rgba(0, 0, 0, 0.21);
+  border-radius: 25px;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
 .copyright {
   text-align: center;
   color: #888;
@@ -691,7 +712,7 @@ hr:after {
   color: white;
   padding: 10px 30px;
   display: inline-block;
-  position: relative;
+  /* position: relative; */
   border: 1px solid rgba(0, 0, 0, 0.21);
   border-bottom: 4px solid rgba(0, 0, 0, 0.21);
   border-radius: 4px;

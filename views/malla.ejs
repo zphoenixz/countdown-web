@@ -2,17 +2,22 @@
 <%- include("partials/header") -%>
 
 <div id="loader" class="loader loader-curtain" data-curtain-text="Subiendo..."></div>
+
+
 <form  id="malla" action="/malla" method="post">
     <div id="stage-parent">
         <div id="container">
             
         </div>
     </div>
+    <div class="malla-home"><a href="/"><span class="icon"></span></a>
+    </div>
     <div id="malla-form">
         <a href="#" class="btn-gradient blue normal" onclick="onSubmit()">
             Upload data to the cloud
         </a>
     </div>
+    
     <input type="hidden" name="curriculum" id="hiddenInput" value="ahorita nada"/>
 </form>
 
