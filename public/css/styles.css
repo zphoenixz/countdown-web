@@ -45,7 +45,7 @@
 }
 
 .subtittle{
-  font-size: 5vh;
+  font-size: 3vh;
   width: 30vh;
   text-align: center
 }
@@ -94,8 +94,8 @@
 }
 
 .btn-home:hover  {
-  width: 33vh ;
-  height: 33vh ;
+  width: 32vh ;
+  height: 32vh ;
 }
 
 @media all and (max-width: 800px) {
