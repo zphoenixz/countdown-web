@@ -11,7 +11,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
   -o-font-smoothing: antialiased;
-  font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
@@ -35,7 +34,29 @@
   width: 100%;
   margin: 0 auto;
   position: relative;
+  flex-grow: 1;
 }
+.rowcontainer {
+  
+  padding-top: 30vh;
+  padding-bottom: 35vh;
+  display: flex;
+  
+  /* width: 100%; */
+  height: 95vh;
+  justify-content: space-around;
+}
+@media all and (max-width: 500px) {
+  .rowcontainer {
+    padding-left: 20vw;
+    padding-right: 20vw;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+    flex-direction: column;
+    
+  }
+}
+
 
 
 #contact input[type="text"],
@@ -150,6 +171,10 @@ fieldset {
   justify-content: center;
   /* width: 20%; */
 }
+  
+.malla-home:hover {
+  opacity: 0.85;
+}
 
 .malla-home span.icon {
   background: url(../icons/home2.png) no-repeat;
@@ -164,6 +189,7 @@ fieldset {
   border-radius: 25px;
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
 }
+
 
 .copyright {
   text-align: center;
@@ -293,10 +319,6 @@ pre .val {
   font-weight: 300;
 }
 
-.btn,
-.btn-two {
-  margin: 9px;
-}
 
 .btn-gradient {
   margin: 5px;
@@ -310,10 +332,7 @@ a[class*="btn"] {
   font-weight: 900;
 }
 
-input[class*="btn"],
-button[class*="btn"] {
-  border: 0;
-}
+
 
 
 @import url(https://fonts.googleapis.com/css?family=opensans:500);
@@ -573,46 +592,6 @@ hr:after {
 }
 
 
-/* Here you can change the button sizes */
-.btn.large,
-.btn-two.large,
-.btn-effect.large {
-  padding: 20px 40px;
-  font-size: 22px;
-}
-
-.btn.small,
-.btn-two.small,
-.btn-gradient.small,
-.btn-effect.small {
-  padding: 8px 18px;
-  font-size: 14px;
-}
-
-.btn.mini,
-.btn-two.mini,
-.btn-gradient.mini,
-.btn-effect.mini {
-  padding: 4px 12px;
-  font-size: 12px;
-}
-
-.btn.block,
-.btn-two.block,
-.btn-gradient.block,
-.btn-effect.block {
-  display: block;
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.btn-gradient.large {
-  padding: 15px 45px;
-  font-size: 22px;
-}
-
 /* Colors for .btn and .btn-two */
 .btn.blue,
 .btn-two.blue {
@@ -631,79 +610,6 @@ hr:after {
   display: inline-block;
   text-align: center;
   color: white;
-}
-
-.btn:active {
-  top: 4px;
-}
-
-/* color classes for .btn */
-.btn.blue {
-  box-shadow: 0px 4px #74a3b0;
-}
-
-.btn.blue:active {
-  box-shadow: 0 0 #74a3b0;
-  background-color: #709CA8;
-}
-
-/* Button two - I have no creativity for names */
-.btn-two {
-  color: white;
-  padding: 15px 25px;
-  display: inline-block;
-  border: 1px solid rgba(0, 0, 0, 0.21);
-  border-bottom-color: rgba(0, 0, 0, 0.34);
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.34) inset,
-    0 2px 0 -1px rgba(0, 0, 0, 0.13),
-    0 3px 0 -1px rgba(0, 0, 0, 0.08),
-    0 3px 13px -1px rgba(0, 0, 0, 0.21);
-}
-
-.btn-two:active {
-  top: 1px;
-  border-color: rgba(0, 0, 0, 0.34) rgba(0, 0, 0, 0.21) rgba(0, 0, 0, 0.21);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.89), 0 1px rgba(0, 0, 0, 0.05) inset;
-  position: relative;
-}
-
-/* 3D Button */
-.btn-3d {
-  position: relative;
-  display: inline-block;
-  font-size: 22px;
-  padding: 20px 60px;
-  color: white;
-  margin: 20px 10px 10px;
-  border-radius: 6px;
-  text-align: center;
-  transition: top .01s linear;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-}
-
-.btn-3d.blue:hover {
-  background-color: #699DD1;
-}
-
-.btn-3d:active {
-  top: 9px;
-}
-
-/* 3D button colors */
-.btn-3d.blue {
-  background-color: #6DA2D9;
-  box-shadow: 0 0 0 1px #6698cb inset,
-    0 0 0 2px rgba(255, 255, 255, 0.15) inset,
-    0 8px 0 0 rgba(110, 164, 219, .7),
-    0 8px 0 1px rgba(0, 0, 0, .4),
-    0 8px 8px 1px rgba(0, 0, 0, 0.5);
-}
-
-.btn-3d.blue:active {
-  box-shadow: 0 0 0 1px #6191C2 inset,
-    0 0 0 2px rgba(255, 255, 255, 0.15) inset,
-    0 0 0 1px rgba(0, 0, 0, 0.4);
 }
 
 /* Gradient buttons */
@@ -730,11 +636,43 @@ hr:after {
   background: linear-gradient(to bottom, rgba(102, 152, 203, 1) 0%, rgba(92, 138, 184, 1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6698cb', endColorstr='#5c8ab8', GradientType=0);
 }
-
 .btn-gradient.blue:active {
-  background: #608FBF;
+  background: rgb(61, 62, 63);
 }
+.btn-gradient:hover {
+  background: rgb(133, 161, 189);
+}
+.btn-home {
+  /* text-decoration: none; */
+  color: white;
+  padding: 10vh;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.21);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+/* #squares { 
+  line-height: 25vh;
+  padding-top: 25vh;
+} */
+@media all and (max-width: 500px) {
+  .btn-home {
+    color: white;
+    padding: 8vh;
+  }
 
+}
+.btn-home.colored {
+  background: rgba(102, 152, 203, 1);
+  background: -moz-linear-gradient(top, rgba(102, 152, 203, 1) 0%, rgba(92, 138, 184, 1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(102, 152, 203, 1)), color-stop(100%, rgba(92, 138, 184, 1)));
+  background: -webkit-linear-gradient(top, rgba(102, 152, 203, 1) 0%, rgba(92, 138, 184, 1) 100%);
+  background: -o-linear-gradient(top, rgba(102, 152, 203, 1) 0%, rgba(92, 138, 184, 1) 100%);
+  background: -ms-linear-gradient(top, rgba(102, 152, 203, 1) 0%, rgba(92, 138, 184, 1) 100%);
+  background: linear-gradient(to bottom, rgba(102, 152, 203, 1) 0%, rgba(92, 138, 184, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6698cb', endColorstr='#5c8ab8', GradientType=0);
+}
 .loader {
   color: #fff;
   position: fixed;

@@ -16,10 +16,14 @@ app.use(express.static("public"));
 
 
 app.get("/", function (req, res) {
-    res.render("index", {hola:"holitas"});
+    res.render("home", {hola:"holitas"});
 });
 
-app.post("/", function (req, res) {
+app.get("/studyplan-data", function (req, res) {
+    res.render("studyplan-data", {hola:"holitas"});
+});
+
+app.post("/studyplan-data", function (req, res) {
     var college = req.body.college.replace(/\s+/g,'');
     var faculty = req.body.faculty.replace(/\s+/g,'');
     var major = req.body.major.replace(/\s+/g,'');
@@ -29,7 +33,7 @@ app.post("/", function (req, res) {
     var firebaseKey = process.env.DB_API_KEY;
 
     res.redirect(url.format({
-        pathname: "/malla",
+        pathname: "/studyplan-graph",
         query: {
             college: college,
             faculty: faculty,
@@ -41,21 +45,20 @@ app.post("/", function (req, res) {
     }));
 })
 
-app.get("/malla", function (req, res) {
+app.get("/studyplan-graph", function (req, res) {
     console.log(req.query);
-    res.render("malla", req.query);
+    res.render("studyplan-graph", req.query);
 });
 
-app.post("/malla", function (req, res) {
+app.post("/studyplan-graph", function (req, res) {
     var nonparsed = req.body.curriculum;
     var parsed = JSON.parse(nonparsed)
 
-    res.redirect("success");
-    // res.status(204).send();
+    res.redirect("studyplan-success");
 });
 
-app.get("/success", function (req, res) {
-    res.render("success");
+app.get("/studyplan-success", function (req, res) {
+    res.render("studyplan-success");
 });
 // app.get("/:customListName", function (req, res) {
 //     const customListName = _.capitalize(req.params.customListName);

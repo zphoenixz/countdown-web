@@ -82,7 +82,7 @@ function updateObjects() {
 }
 
 var titulo = new Konva.Text({
-    text: 'Organizar Malla Curricular',
+    text: 'Career Study Plan',
     // x: width / 2,
     y: boxHeight / 2,
     width: width,

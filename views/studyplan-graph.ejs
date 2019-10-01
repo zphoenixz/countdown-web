@@ -1,19 +1,19 @@
 
 <%- include("partials/header") -%>
 
-<div id="loader" class="loader loader-curtain" data-curtain-text="Subiendo..."></div>
+<div id="loader" class="loader loader-curtain" data-curtain-text="Uploading..."></div>
 
 
-<form  id="malla" action="/malla" method="post">
+<form  id="malla" action="/studyplan-graph" method="post">
     <div id="stage-parent">
         <div id="container">
             
         </div>
     </div>
-    <div class="malla-home"><a href="/"><span class="icon"></span></a>
+    <div class="malla-home"><a href="/studyplan-data"><span class="icon"></span></a>
     </div>
     <div id="malla-form">
-        <a href="#" class="btn-gradient blue normal" onclick="onSubmit()">
+        <a href="#" class="btn-gradient blue" onclick="onSubmit()">
             Upload data to the cloud
         </a>
     </div>
