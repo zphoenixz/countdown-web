@@ -1,3 +1,4 @@
+let countryInput = document.getElementById("country");
 let collegeInput = document.getElementById("college");
 let facultyInput = document.getElementById("faculty");
 let majorInput = document.getElementById("major");
@@ -43,7 +44,7 @@ facultyInput.addEventListener('keyup', function (e) {
     }
 });
 facultyInput.addEventListener('focusout', function (e) {
-    second = getData("BOLIVIA/" + college_s + '/' + faculty_s);
+    second = getData(countryInput.value + '/' + college_s + '/' + faculty_s);
     cvyear = second[0];
     majors = second[1];
 
@@ -79,7 +80,7 @@ function validate() {
 }
 
 function checkData() {
-    const pathtodb = "BOLIVIA/" + college_s + '/' + faculty_s + '/' + major_s + '/' + cvyear_s;
+    const pathtodb = countryInput.value + '/' + college_s + '/' + faculty_s + '/' + major_s + '/' + cvyear_s;
     const curriculum = db.collection(pathtodb);
     curriculum.get()
         .then((docSnapshot) => {

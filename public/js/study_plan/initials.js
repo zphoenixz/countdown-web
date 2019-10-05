@@ -1,4 +1,4 @@
-console.log(college, faculty, major, cvyear, modify);
+console.log(country, college, faculty, major, cvyear, modify);
 
 // Your web app's Firebase configuration
 var firebaseConfig = {

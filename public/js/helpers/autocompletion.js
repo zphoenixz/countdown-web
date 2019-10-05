@@ -11,6 +11,10 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+$(document).ready(function() {
+    $('select').niceSelect();
+});
+
 function getData(path){
     var collegess = {}
     var collegeCompletionn = []

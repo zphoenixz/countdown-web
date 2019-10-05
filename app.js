@@ -20,21 +20,23 @@ app.get("/", function (req, res) {
 });
 
 app.get("/studyplan-data", function (req, res) {
-    res.render("studyplan-data", {hola:"holitas"});
+    res.render("university-data", {title:"Study Plan", menu: 1});
 });
 
 app.post("/studyplan-data", function (req, res) {
-    var college = req.body.college.replace(/\s+/g,'');
-    var faculty = req.body.faculty.replace(/\s+/g,'');
-    var major = req.body.major.replace(/\s+/g,'');
-    var cvyear = req.body.cvyear.replace(/\s+/g,'');
-    var modify = req.body.modify;
+    let country = req.body.country;
+    let college = req.body.college.replace(/\s+/g,'');
+    let faculty = req.body.faculty.replace(/\s+/g,'');
+    let major = req.body.major.replace(/\s+/g,'');
+    let cvyear = req.body.cvyear.replace(/\s+/g,'');
+    let modify = req.body.modify;
 
-    var firebaseKey = process.env.DB_API_KEY;
+    let firebaseKey = process.env.DB_API_KEY;
 
     res.redirect(url.format({
         pathname: "/studyplan-graph",
         query: {
+            country: country,
             college: college,
             faculty: faculty,
             major: major,
@@ -60,6 +62,11 @@ app.post("/studyplan-graph", function (req, res) {
 app.get("/studyplan-success", function (req, res) {
     res.render("studyplan-success");
 });
+
+app.get("/subject-data", function (req, res) {
+    res.render("university-data", {title:"Study Plan", menu: 2});
+});
+
 // app.get("/:customListName", function (req, res) {
 //     const customListName = _.capitalize(req.params.customListName);
 

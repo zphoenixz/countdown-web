@@ -1,0 +1,54 @@
+<%- include("partials/header") -%>
+
+<div class="container">
+    <form autocomplete="off" id="contact" onsubmit="return validate();" method="post">
+      <h3><%= title %></h3>
+      <h4>Step 1: fill college data...</h4>
+      <fieldset>
+        <div class="autocomplete" >
+          <select id="country" name="country" class="nice-select wide" tabindex="1" required>
+              <option value="BOLIVIA">BOLIVIA</option>
+              <option value="HUNGARY">HUNGARY</option>
+              <option value="TURKEY">TURKEY</option>
+              <option value="SWITZERLAND">SWITZERLAND</option>
+            </select>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="autocomplete" >
+          <input id="college" name="college" placeholder="University" type="text" tabindex="2" required>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="autocomplete" >
+          <input id="faculty" name="faculty" placeholder="Faculty" type="text" tabindex="3" required>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="autocomplete" >
+          <input id="major" name="major" placeholder="Major" type="text" tabindex="4" required>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="autocomplete" >
+          <input id="cvyear" name="cvyear" placeholder="Curriculum year" type="text" tabindex="5" required>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="autocomplete">
+          <button name="submit" type="submit" id="contact-submit" data-submit="...Saving">First fill the upper fields</button>
+        </div>
+      </fieldset>
+      <p class="copyright">In development <a href="https://rjva.com" target="_blank" title="Colorlib">RJVA</a>
+      </p>
+      <input type="hidden" name="modify" id="hiddenInput" value="ahorita nada"/>
+    </form>
+  </div>
+
+<script src="js/helpers/jquery.js"></script> 
+<script src="js/helpers/nice-select/jquery.nice-select.js"></script>
+
+<script type="text/javascript" src="js/helpers/autocompletion.js"></script>
+<script type="text/javascript" src="js/helpers/checkdata.js"></script>
+
+<%- include("partials/footer") -%>

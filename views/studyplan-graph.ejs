@@ -22,6 +22,7 @@
 </form>
 
 <script>
+    var country = ("<%- country %>");
     var college = ("<%- college %>").toUpperCase();
     var faculty = ("<%- faculty %>").toUpperCase();
     var major   = ("<%- major %>").toUpperCase();
@@ -29,10 +30,10 @@
     var modify  = ("<%- modify %>");
 </script>
 <script src="https://unpkg.com/konva@4.0.4/konva.min.js"></script>
-<script type="text/javascript" src="js/initials.js"></script>
-<script type="text/javascript" src="js/vertex.js"></script>
-<script type="text/javascript" src="js/edge.js"></script>
-<script type="text/javascript" src="js/actions.js"></script>
-<script type="text/javascript" src="js/upload.js"></script>
+<script type="text/javascript" src="js/study_plan/initials.js"></script>
+<script type="text/javascript" src="js/study_plan/vertex.js"></script>
+<script type="text/javascript" src="js/study_plan/edge.js"></script>
+<script type="text/javascript" src="js/study_plan/actions.js"></script>
+<script type="text/javascript" src="js/study_plan/upload.js"></script>
 
 <%- include("partials/footer") -%>
