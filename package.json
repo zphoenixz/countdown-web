@@ -17,7 +17,7 @@
     "cytoscape-edgehandles": "^3.6.0",
     "dotenv": "^8.1.0",
     "ejs": "^2.6.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "lodash": "^4.17.15",
     "pure-css-loader": "^3.3.3",
     "rete": "^1.4.1-rc.2",
